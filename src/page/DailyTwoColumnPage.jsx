@@ -206,7 +206,7 @@ export default function DailyTwoColumnPage() {
         {/* <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "4mm" }}>
           บันทึกประจำวัน (ตัวอย่าง 2 แถว)
         </div> */}
-        <div style={{ marginBottom: "4mm" }}></div>
+        <div style={{ marginBottom: "15mm" }}></div>
 
         {/* TWO COLUMN TABLE */}
         <div
