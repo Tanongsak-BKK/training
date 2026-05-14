@@ -100,7 +100,7 @@ export default function DailyTwoColumnPage() {
     </div>
   );
 
-  const formTextarea = (label, val, onChange) => (
+  const formTextarea = (label, val, onChange, maxLines = 18) => (
     <div style={{ marginBottom: 8 }}>
       <label style={{ fontSize: 13, display: "block", marginBottom: 2, color: "#555" }}>
         {label}
@@ -108,7 +108,12 @@ export default function DailyTwoColumnPage() {
       <textarea
         rows={6}
         value={val}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          const lines = e.target.value.split("\n");
+          if (lines.length <= maxLines) {
+            onChange(e.target.value);
+          }
+        }}
         style={{
           border: "1px solid #ccc",
           borderRadius: 4,
@@ -135,7 +140,7 @@ export default function DailyTwoColumnPage() {
           {formInput("พ.ศ.", leftData.year, (v) => setLeftData({ ...leftData, year: v }))}
           {formInput("เวลาเริ่ม", leftData.startTime, (v) => setLeftData({ ...leftData, startTime: v }))}
           {formInput("เวลาสิ้นสุด", leftData.endTime, (v) => setLeftData({ ...leftData, endTime: v }))}
-          {formTextarea("รายละเอียดงาน", leftData.work, (v) => setLeftData({ ...leftData, work: v }))}
+          {formTextarea("รายละเอียดงาน", leftData.work, (v) => setLeftData({ ...leftData, work: v }), 18)}
         </div>
 
         {/* RIGHT FORM */}
@@ -147,7 +152,7 @@ export default function DailyTwoColumnPage() {
           {formInput("พ.ศ.", rightData.year, (v) => setRightData({ ...rightData, year: v }))}
           {formInput("เวลาเริ่ม", rightData.startTime, (v) => setRightData({ ...rightData, startTime: v }))}
           {formInput("เวลาสิ้นสุด", rightData.endTime, (v) => setRightData({ ...rightData, endTime: v }))}
-          {formTextarea("รายละเอียดงาน", rightData.work, (v) => setRightData({ ...rightData, work: v }))}
+          {formTextarea("รายละเอียดงาน", rightData.work, (v) => setRightData({ ...rightData, work: v }), 18)}
         </div>
       </div>
 

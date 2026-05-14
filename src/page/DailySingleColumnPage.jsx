@@ -80,15 +80,20 @@ export default function DailySingleColumnPage() {
     </div>
   );
 
-  const formTextarea = (label, val, onChange) => (
+  const formTextarea = (label, val, onChange, maxLines = 10) => (
     <div style={{ marginBottom: 8 }}>
       <label style={{ fontSize: 13, display: "block", marginBottom: 2, color: "#555" }}>
         {label}
       </label>
       <textarea
-        rows={10}
+        rows={maxLines}
         value={val}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          const lines = e.target.value.split("\n");
+          if (lines.length <= maxLines) {
+            onChange(e.target.value);
+          }
+        }}
         style={{
           border: "1px solid #ccc",
           borderRadius: 4,
