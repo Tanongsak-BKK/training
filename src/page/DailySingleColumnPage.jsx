@@ -3,32 +3,43 @@ import React, { useRef, useState } from "react";
 export default function DailySingleColumnPage() {
   const pdfRef = useRef();
 
-  const [data, setData] = useState({
+  const emptyData = () => ({
     date: "",
     month: "",
     year: "",
     startTime: "",
     endTime: "",
-    page: "8",
-    recordNo: "1",
+    page: "",
+    recordNo: "",
     work: "",
   });
 
+  const [leftData, setLeftData] = useState(emptyData());
+  const [rightData, setRightData] = useState(emptyData());
+
   const exportPDF = () => {
+    // dynamically load html2pdf
     const link = document.createElement("link");
     link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
 
     const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+    script.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
     script.onload = () => {
       const element = pdfRef.current;
       const opt = {
         margin: 0,
-        filename: `daily-record-${data.recordNo}.pdf`,
+        filename: "daily-record.pdf",
         image: { type: "jpeg", quality: 1 },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          scrollX: 0
+        },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
       window.html2pdf().set(opt).from(element).save();
@@ -36,111 +47,227 @@ export default function DailySingleColumnPage() {
     document.head.appendChild(script);
   };
 
-  const formInput = (label, val, onChange) => (
-    <div style={{ marginBottom: 12 }}>
-      <label style={{ fontSize: 13, display: "block", marginBottom: 4, color: "#555", fontWeight: "bold" }}>{label}</label>
+  const inputStyle = {
+    border: "none",
+    borderBottom: "1px dotted #333",
+    outline: "none",
+    background: "transparent",
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    width: "100%",
+    padding: "0 2px",
+  };
+
+  const inlineInput = (val, onChange, w = "60px") => (
+    <input
+      value={val}
+      onChange={(e) => onChange(e.target.value)}
+      style={{ ...inputStyle, display: "inline-block", width: w }}
+    />
+  );
+
+  const formInput = (label, val, onChange, type = "text") => (
+    <div style={{ marginBottom: 8 }}>
+      <label style={{ fontSize: 13, display: "block", marginBottom: 2, color: "#555" }}>
+        {label}
+      </label>
       <input
-        type="text"
+        type={type}
         value={val}
         onChange={(e) => onChange(e.target.value)}
-        style={{ border: "1px solid #ccc", borderRadius: 6, padding: "8px 12px", width: "100%", fontSize: 14, boxSizing: "border-box", outline: "none" }}
+        style={{
+          border: "1px solid #ccc",
+          borderRadius: 4,
+          padding: "4px 8px",
+          width: "100%",
+          fontSize: 13,
+          boxSizing: "border-box",
+        }}
       />
     </div>
   );
 
-  const dotLine = (width = "20mm", value = "") => (
-    <span style={{ display: "inline-block", width, borderBottom: "1px dotted #000", textAlign: "center", margin: "0 1mm", verticalAlign: "bottom" }}>
+  const formTextarea = (label, val, onChange) => (
+    <div style={{ marginBottom: 8 }}>
+      <label style={{ fontSize: 13, display: "block", marginBottom: 2, color: "#555" }}>
+        {label}
+      </label>
+      <textarea
+        rows={6}
+        value={val}
+        onChange={(e) => onChange(e.target.value)}
+        style={{
+          border: "1px solid #ccc",
+          borderRadius: 4,
+          padding: "4px 8px",
+          width: "100%",
+          fontSize: 13,
+          boxSizing: "border-box",
+          resize: "vertical",
+        }}
+      />
+    </div>
+  );
+
+  return (
+    <div style={{ padding: 20, background: "#e8e8e8", minHeight: "100vh", fontFamily: "sans-serif" }}>
+      {/* ===== FORM ===== */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+        {/* LEFT FORM */}
+        <div style={{ background: "#fff", padding: 16, borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,.15)" }}>
+          <h3 style={{ margin: "0 0 12px", fontSize: 15, color: "#5a2d0c" }}>ฝั่งซ้าย</h3>
+          {formInput("ลำดับบันทึก", leftData.recordNo, (v) => setLeftData({ ...leftData, recordNo: v }))}
+          {formInput("วันที่ (ตัวเลข)", leftData.date, (v) => setLeftData({ ...leftData, date: v }))}
+          {formInput("เดือน", leftData.month, (v) => setLeftData({ ...leftData, month: v }))}
+          {formInput("พ.ศ.", leftData.year, (v) => setLeftData({ ...leftData, year: v }))}
+          {formInput("เวลาเริ่ม", leftData.startTime, (v) => setLeftData({ ...leftData, startTime: v }))}
+          {formInput("เวลาสิ้นสุด", leftData.endTime, (v) => setLeftData({ ...leftData, endTime: v }))}
+          {formTextarea("รายละเอียดงาน", leftData.work, (v) => setLeftData({ ...leftData, work: v }))}
+        </div>
+
+        {/* RIGHT FORM */}
+        <div style={{ background: "#fff", padding: 16, borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,.15)" }}>
+          <h3 style={{ margin: "0 0 12px", fontSize: 15, color: "#5a2d0c" }}>ฝั่งขวา</h3>
+          {formInput("ลำดับบันทึก", rightData.recordNo, (v) => setRightData({ ...rightData, recordNo: v }))}
+          {formInput("วันที่ (ตัวเลข)", rightData.date, (v) => setRightData({ ...rightData, date: v }))}
+          {formInput("เดือน", rightData.month, (v) => setRightData({ ...rightData, month: v }))}
+          {formInput("พ.ศ.", rightData.year, (v) => setRightData({ ...rightData, year: v }))}
+          {formInput("เวลาเริ่ม", rightData.startTime, (v) => setRightData({ ...rightData, startTime: v }))}
+          {formInput("เวลาสิ้นสุด", rightData.endTime, (v) => setRightData({ ...rightData, endTime: v }))}
+          {formTextarea("รายละเอียดงาน", rightData.work, (v) => setRightData({ ...rightData, work: v }))}
+        </div>
+      </div>
+
+      {/* Page number field */}
+      <div style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+        <label style={{ fontSize: 13, color: "#555" }}>เลขหน้า:</label>
+        <input
+          value={leftData.page}
+          onChange={(e) => {
+            setLeftData({ ...leftData, page: e.target.value });
+            setRightData({ ...rightData, page: e.target.value });
+          }}
+          style={{ border: "1px solid #ccc", borderRadius: 4, padding: "4px 8px", width: 60, fontSize: 13 }}
+        />
+        <button
+          onClick={exportPDF}
+          style={{
+            marginLeft: "auto",
+            padding: "8px 24px",
+            background: "#8b4513",
+            color: "#fff",
+            border: "none",
+            borderRadius: 6,
+            cursor: "pointer",
+            fontSize: 14,
+            fontWeight: "bold",
+          }}
+        >
+          Export PDF
+        </button>
+      </div>
+
+      {/* ===== PDF PREVIEW ===== */}
+      <div
+        ref={pdfRef}
+        style={{
+          width: "210mm",
+          height: "297mm",
+          background: "#fff",
+          margin: "0 auto",
+          padding: "4mm 12mm 12mm",
+          boxSizing: "border-box",
+          fontFamily: "'Sarabun', sans-serif",
+          position: "relative",
+          fontSize: "16px",
+          overflow: "hidden",
+          textRendering: "geometricPrecision",
+          WebkitFontSmoothing: "antialiased",
+          letterSpacing: "normal"
+        }}
+      >
+        {/* PAGE NUMBER top-right */}
+        <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+          {leftData.page}
+        </div>
+
+        {/* HEADER LINE 1 – thin brown top bar */}
+        <div style={{ borderTop: "3px solid #8b4513", marginBottom: "8mm" }} />
+
+        {/* HEADER TEXT */}
+        <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
+          สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
+        </div>
+
+        {/* SECOND LINE */}
+        <div style={{ borderTop: "1.5px solid #8b4513", marginBottom: "3mm" }} />
+
+        {/* TITLE */}
+        <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "4mm" }}>
+          บันทึกประจำวัน
+        </div>
+
+
+        {/* TWO COLUMN TABLE */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            border: "1px solid #000",
+          }}
+        >
+          {/* Row 1: Info */}
+          <ColumnInfo data={leftData} isLeft={true} />
+          <ColumnInfo data={rightData} isLeft={false} />
+
+          {/* Row 2: Lined Area */}
+          <ColumnLined data={leftData} isLeft={true} />
+          <ColumnLined data={rightData} isLeft={false} />
+
+          {/* Row 3: Signature Area */}
+          <div style={{ height: "45mm", borderTop: "1px solid #000", borderRight: "1px solid #000" }}></div>
+          <div style={{ height: "45mm", borderTop: "1px solid #000" }}></div>
+        </div>
+
+        {/* BOTTOM CAPTION */}
+        <div style={{ position: "absolute", bottom: "10mm", left: 0, right: 0, textAlign: "center", fontSize: "16px" }}>
+          แสดงภาพสเก็ตช์ ภาพถ่าย หรือชิ้นงาน แบบงาน
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ColumnInfo({ data, isLeft }) {
+  const dotLine = (width = "40mm", value = "") => (
+    <span style={{ display: "inline-block", width, borderBottom: "1px dotted #333", textAlign: "center", margin: "0 1mm", verticalAlign: "bottom" }}>
       {value || "\u00a0"}
     </span>
   );
-
-  const lines = data.work ? data.work.split("\n") : [];
-
   return (
-    <div style={{ padding: "40px 20px", background: "#f5f5f7", minHeight: "100vh", fontFamily: "sans-serif" }}>
-      <div style={{ display: "flex", gap: "30px", maxWidth: "1200px", margin: "0 auto", alignItems: "flex-start" }}>
-        
-        {/* INPUT FORM */}
-        <div style={{ flex: "0 0 350px", background: "#fff", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 20px rgba(0,0,0,0.08)", position: "sticky", top: "40px" }}>
-          <h3 style={{ marginTop: 0, color: "#8b4513", borderBottom: "2px solid #8b4513", paddingBottom: "10px", marginBottom: "20px" }}>บันทึกประจำวัน</h3>
-          
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            {formInput("ลำดับบันทึก", data.recordNo, (v) => setData({ ...data, recordNo: v }))}
-            {formInput("เลขหน้า", data.page, (v) => setData({ ...data, page: v }))}
-          </div>
-          
-          {formInput("วันที่ (ตัวเลข)", data.date, (v) => setData({ ...data, date: v }))}
-          {formInput("เดือน", data.month, (v) => setData({ ...data, month: v }))}
-          
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
-            {formInput("พ.ศ.", data.year, (v) => setData({ ...data, year: v }))}
-            {formInput("เริ่ม", data.startTime, (v) => setData({ ...data, startTime: v }))}
-            {formInput("สิ้นสุด", data.endTime, (v) => setData({ ...data, endTime: v }))}
-          </div>
-
-          <label style={{ fontSize: 13, display: "block", marginBottom: 4, color: "#555", fontWeight: "bold" }}>รายละเอียดงาน</label>
-          <textarea
-            rows={10}
-            value={data.work}
-            onChange={(e) => setData({ ...data, work: e.target.value })}
-            style={{ border: "1px solid #ccc", borderRadius: 6, padding: "8px 12px", width: "100%", fontSize: 14, boxSizing: "border-box", resize: "vertical", outline: "none", marginBottom: "20px" }}
-          />
-
-          <button onClick={exportPDF} style={{ width: "100%", padding: "12px", background: "#8b4513", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold", fontSize: "16px" }}>
-            Export to PDF
-          </button>
-        </div>
-
-        {/* PDF PREVIEW */}
-        <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-          <div ref={pdfRef} style={{ width: "210mm", height: "297mm", background: "#fff", padding: "10mm 15mm", boxSizing: "border-box", fontFamily: "'Sarabun', sans-serif", position: "relative", boxShadow: "0 0 20px rgba(0,0,0,0.1)" }}>
-            
-            {/* Header */}
-            <div style={{ position: "absolute", top: "10mm", right: "15mm", fontSize: "16pt" }}>{data.page}</div>
-            <div style={{ textAlign: "right", fontSize: "12pt", marginTop: "10mm", marginBottom: "2mm", color: "#000" }}>
-              สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
-            </div>
-            <div style={{ borderTop: "4px solid #8b4513", marginBottom: "8mm" }} />
-
-            {/* Title */}
-            <div style={{ textAlign: "center", fontSize: "20pt", fontWeight: "bold", marginBottom: "10mm" }}>
-              บันทึกประจำวัน
-            </div>
-
-            {/* SECTION 1: Info Box */}
-            <div style={{ border: "1px solid #000", padding: "5mm", height: "60mm", boxSizing: "border-box" }}>
-              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", fontSize: "16pt", lineHeight: "2.2" }}>
-                ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("20mm", data.date)}
-                เดือน{dotLine("50mm", data.month)}
-                พ.ศ.{dotLine("25mm", data.year)}
-                เริ่มปฏิบัติงานเวลา{dotLine("30mm", data.startTime)}น.
-                สิ้นสุดเวลา{dotLine("30mm", data.endTime)}น.
-              </div>
-            </div>
-
-            {/* SECTION 2: Lined Area */}
-            <div style={{ border: "1px solid #000", borderTop: "none", padding: "5mm 8mm", height: "130mm", boxSizing: "border-box" }}>
-              {Array.from({ length: 14 }).map((_, i) => (
-                <div key={i} style={{ height: "9mm", borderBottom: "1px dotted #888", display: "flex", alignItems: "flex-end", paddingBottom: "1mm", fontSize: "16pt" }}>
-                  {lines[i] || ""}
-                </div>
-              ))}
-            </div>
-
-            {/* SECTION 3: Signature/Image Box */}
-            <div style={{ border: "1px solid #000", borderTop: "none", height: "55mm", boxSizing: "border-box" }}>
-              {/* Empty for signatures or sketches */}
-            </div>
-
-            {/* Bottom Caption */}
-            <div style={{ position: "absolute", bottom: "10mm", left: 0, right: 0, textAlign: "center", fontSize: "14pt", color: "#666" }}>
-              แสดงภาพสเก็ตช์ ภาพถ่าย หรือชิ้นงาน แบบงาน
-            </div>
-
-          </div>
-        </div>
-
+    <div style={{ padding: "3mm 2mm", borderRight: isLeft ? "1px solid #000" : "none", fontSize: "16px", height: "30mm", boxSizing: "border-box" }}>
+      <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", marginBottom: "1mm" }}>
+        ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("15mm", data.date)}เดือน{dotLine("18mm", data.month)}พ.ศ.{dotLine("15mm", data.year)}
       </div>
+      <div style={{ textAlign: "center", fontWeight: "bold", margin: "1mm 0" }}>เวลาปฏิบัติงาน</div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        เริ่ม{dotLine("18mm", data.startTime)}น. ถึง{dotLine("18mm", data.endTime)}น.
+      </div>
+    </div>
+  );
+}
+
+function ColumnLined({ data, isLeft }) {
+  const LINE_H = "8mm";
+  const LINE_COUNT = 18;
+  const lines = data.work ? data.work.split("\n") : [];
+  return (
+    <div style={{ borderTop: "1px solid #000", borderRight: isLeft ? "1px solid #000" : "none", padding: "0 3mm", minHeight: "150mm", boxSizing: "border-box" }}>
+      {Array.from({ length: LINE_COUNT }).map((_, i) => (
+        <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #aaa", display: "flex", alignItems: "flex-end", paddingBottom: "1mm" }}>
+          <span style={{ fontSize: "16px", whiteSpace: "pre" }}>{lines[i] || ""}</span>
+        </div>
+      ))}
     </div>
   );
 }
