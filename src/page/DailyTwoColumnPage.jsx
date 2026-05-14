@@ -175,7 +175,7 @@ export default function DailyTwoColumnPage() {
           height: "297mm",
           background: "#fff",
           margin: "0 auto",
-          padding: "6mm 12mm 12mm",
+          padding: "4mm 12mm 12mm",
           boxSizing: "border-box",
           fontFamily: "'Sarabun', sans-serif",
           position: "relative",
@@ -187,12 +187,12 @@ export default function DailyTwoColumnPage() {
         }}
       >
         {/* PAGE NUMBER top-right */}
-        <div style={{ position: "absolute", top: "1mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+        <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
           {leftData.page}
         </div>
 
         {/* HEADER LINE 1 – thin brown top bar */}
-        <div style={{ borderTop: "3px solid #8b4513", marginBottom: "2mm" }} />
+        <div style={{ borderTop: "3px solid #8b4513", marginBottom: "8mm" }} />
 
         {/* HEADER TEXT */}
         <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
