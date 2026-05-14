@@ -173,7 +173,7 @@ export default function DailySingleColumnPage() {
           <div style={{ marginBottom: "5mm" }} />
 
           {/* HEADER TEXT */}
-          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "15mm" }}>
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "10mm" }}>
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
