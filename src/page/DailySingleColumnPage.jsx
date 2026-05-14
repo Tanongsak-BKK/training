@@ -14,57 +14,50 @@ export default function DailySingleColumnPage() {
     work: "",
   });
 
-  const [leftData, setLeftData] = useState(emptyData());
-  const [rightData, setRightData] = useState(emptyData());
+  const [data, setData] = useState(emptyData());
 
   const exportPDF = () => {
-    // dynamically load html2pdf
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
+    const filename = data.recordNo ? `บันทึกประจำวัน_ลำดับที่_${data.recordNo}.pdf` : "บันทึกประจำวัน.pdf";
 
-    const script = document.createElement("script");
-    script.src =
-      "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-    script.onload = () => {
+    const runExport = () => {
       const element = pdfRef.current;
       const opt = {
         margin: 0,
-        filename: "daily-record.pdf",
+        filename: filename,
         image: { type: "jpeg", quality: 1 },
         html2canvas: {
-          scale: 2,
+          scale: 3, // Increased scale for better clarity
           useCORS: true,
           logging: false,
+          letterRendering: true,
           scrollY: 0,
-          scrollX: 0
+          scrollX: 0,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: 'avoid-all' }
       };
       window.html2pdf().set(opt).from(element).save();
     };
-    document.head.appendChild(script);
-  };
 
-  const inputStyle = {
-    border: "none",
-    borderBottom: "1px dotted #333",
-    outline: "none",
-    background: "transparent",
-    fontFamily: "inherit",
-    fontSize: "inherit",
-    width: "100%",
-    padding: "0 2px",
-  };
+    if (window.html2pdf) {
+      runExport();
+    } else {
+      // Load Font if not exists
+      if (!document.getElementById("font-sarabun")) {
+        const link = document.createElement("link");
+        link.id = "font-sarabun";
+        link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
+        link.rel = "stylesheet";
+        document.head.appendChild(link);
+      }
 
-  const inlineInput = (val, onChange, w = "60px") => (
-    <input
-      value={val}
-      onChange={(e) => onChange(e.target.value)}
-      style={{ ...inputStyle, display: "inline-block", width: w }}
-    />
-  );
+      // Load html2pdf script
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+      script.onload = runExport;
+      document.head.appendChild(script);
+    }
+  };
 
   const formInput = (label, val, onChange, type = "text") => (
     <div style={{ marginBottom: 8 }}>
@@ -93,7 +86,7 @@ export default function DailySingleColumnPage() {
         {label}
       </label>
       <textarea
-        rows={6}
+        rows={10}
         value={val}
         onChange={(e) => onChange(e.target.value)}
         style={{
@@ -112,160 +105,144 @@ export default function DailySingleColumnPage() {
   return (
     <div style={{ padding: 20, background: "#e8e8e8", minHeight: "100vh", fontFamily: "sans-serif" }}>
       {/* ===== FORM ===== */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        {/* LEFT FORM */}
+      <div style={{ maxWidth: "800px", margin: "0 auto 20px" }}>
         <div style={{ background: "#fff", padding: 16, borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,.15)" }}>
-          <h3 style={{ margin: "0 0 12px", fontSize: 15, color: "#5a2d0c" }}>ฝั่งซ้าย</h3>
-          {formInput("ลำดับบันทึก", leftData.recordNo, (v) => setLeftData({ ...leftData, recordNo: v }))}
-          {formInput("วันที่ (ตัวเลข)", leftData.date, (v) => setLeftData({ ...leftData, date: v }))}
-          {formInput("เดือน", leftData.month, (v) => setLeftData({ ...leftData, month: v }))}
-          {formInput("พ.ศ.", leftData.year, (v) => setLeftData({ ...leftData, year: v }))}
-          {formInput("เวลาเริ่ม", leftData.startTime, (v) => setLeftData({ ...leftData, startTime: v }))}
-          {formInput("เวลาสิ้นสุด", leftData.endTime, (v) => setLeftData({ ...leftData, endTime: v }))}
-          {formTextarea("รายละเอียดงาน", leftData.work, (v) => setLeftData({ ...leftData, work: v }))}
-        </div>
+          <h3 style={{ margin: "0 0 12px", fontSize: 15, color: "#5a2d0c" }}>ข้อมูลบันทึก</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {formInput("ลำดับบันทึก", data.recordNo, (v) => setData({ ...data, recordNo: v }))}
+            {formInput("เลขหน้า", data.page, (v) => setData({ ...data, page: v }))}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            {formInput("วันที่ (ตัวเลข)", data.date, (v) => setData({ ...data, date: v }))}
+            {formInput("เดือน", data.month, (v) => setData({ ...data, month: v }))}
+            {formInput("พ.ศ.", data.year, (v) => setData({ ...data, year: v }))}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {formInput("เวลาเริ่ม", data.startTime, (v) => setData({ ...data, startTime: v }))}
+            {formInput("เวลาสิ้นสุด", data.endTime, (v) => setData({ ...data, endTime: v }))}
+          </div>
+          {formTextarea("รายละเอียดงาน", data.work, (v) => setData({ ...data, work: v }))}
 
-        {/* RIGHT FORM */}
-        <div style={{ background: "#fff", padding: 16, borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,.15)" }}>
-          <h3 style={{ margin: "0 0 12px", fontSize: 15, color: "#5a2d0c" }}>ฝั่งขวา</h3>
-          {formInput("ลำดับบันทึก", rightData.recordNo, (v) => setRightData({ ...rightData, recordNo: v }))}
-          {formInput("วันที่ (ตัวเลข)", rightData.date, (v) => setRightData({ ...rightData, date: v }))}
-          {formInput("เดือน", rightData.month, (v) => setRightData({ ...rightData, month: v }))}
-          {formInput("พ.ศ.", rightData.year, (v) => setRightData({ ...rightData, year: v }))}
-          {formInput("เวลาเริ่ม", rightData.startTime, (v) => setRightData({ ...rightData, startTime: v }))}
-          {formInput("เวลาสิ้นสุด", rightData.endTime, (v) => setRightData({ ...rightData, endTime: v }))}
-          {formTextarea("รายละเอียดงาน", rightData.work, (v) => setRightData({ ...rightData, work: v }))}
+          <button
+            onClick={exportPDF}
+            style={{
+              marginTop: 12,
+              padding: "10px 24px",
+              background: "#8b4513",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer",
+              fontSize: 14,
+              fontWeight: "bold",
+              width: "100%"
+            }}
+          >
+            Export PDF
+          </button>
         </div>
-      </div>
-
-      {/* Page number field */}
-      <div style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-        <label style={{ fontSize: 13, color: "#555" }}>เลขหน้า:</label>
-        <input
-          value={leftData.page}
-          onChange={(e) => {
-            setLeftData({ ...leftData, page: e.target.value });
-            setRightData({ ...rightData, page: e.target.value });
-          }}
-          style={{ border: "1px solid #ccc", borderRadius: 4, padding: "4px 8px", width: 60, fontSize: 13 }}
-        />
-        <button
-          onClick={exportPDF}
-          style={{
-            marginLeft: "auto",
-            padding: "8px 24px",
-            background: "#8b4513",
-            color: "#fff",
-            border: "none",
-            borderRadius: 6,
-            cursor: "pointer",
-            fontSize: 14,
-            fontWeight: "bold",
-          }}
-        >
-          Export PDF
-        </button>
       </div>
 
       {/* ===== PDF PREVIEW ===== */}
-      <div
-        ref={pdfRef}
-        style={{
-          width: "210mm",
-          height: "297mm",
-          background: "#fff",
-          margin: "0 auto",
-          padding: "4mm 12mm 12mm",
-          boxSizing: "border-box",
-          fontFamily: "'Sarabun', sans-serif",
-          position: "relative",
-          fontSize: "16px",
-          overflow: "hidden",
-          textRendering: "geometricPrecision",
-          WebkitFontSmoothing: "antialiased",
-          letterSpacing: "normal"
-        }}
-      >
-        {/* PAGE NUMBER top-right */}
-        <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
-          {leftData.page}
-        </div>
-
-        {/* HEADER LINE 1 – thin brown top bar */}
-        <div style={{ borderTop: "3px solid #8b4513", marginBottom: "8mm" }} />
-
-        {/* HEADER TEXT */}
-        <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
-          สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
-        </div>
-
-        {/* SECOND LINE */}
-        <div style={{ borderTop: "1.5px solid #8b4513", marginBottom: "3mm" }} />
-
-        {/* TITLE */}
-        <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "4mm" }}>
-          บันทึกประจำวัน
-        </div>
-
-
-        {/* TWO COLUMN TABLE */}
+      <div style={{ display: "flex", justifyContent: "center", paddingBottom: "40px" }}>
         <div
+          ref={pdfRef}
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            border: "1px solid #000",
+            width: "210mm",
+            height: "296mm",
+            background: "#fff",
+            padding: "4mm 12mm 12mm",
+            boxSizing: "border-box",
+            boxShadow: "0 0 15px rgba(0,0,0,0.15)",
+            fontFamily: "'Sarabun', sans-serif",
+            position: "relative",
+            fontSize: "16px",
+            color: "#000",
+            overflow: "hidden",
+            textRendering: "geometricPrecision",
+            WebkitFontSmoothing: "antialiased",
+            letterSpacing: "normal"
           }}
         >
-          {/* Row 1: Info */}
-          <ColumnInfo data={leftData} isLeft={true} />
-          <ColumnInfo data={rightData} isLeft={false} />
+          {/* PAGE NUMBER top-right */}
+          <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+            {data.page}
+          </div>
 
-          {/* Row 2: Lined Area */}
-          <ColumnLined data={leftData} isLeft={true} />
-          <ColumnLined data={rightData} isLeft={false} />
+          {/* HEADER LINE 1 – thin brown top bar */}
+          <div style={{ borderTop: "3px solid #8b4513", marginBottom: "5mm" }} />
 
-          {/* Row 3: Signature Area */}
-          <div style={{ height: "45mm", borderTop: "1px solid #000", borderRight: "1px solid #000" }}></div>
-          <div style={{ height: "45mm", borderTop: "1px solid #000" }}></div>
-        </div>
+          {/* HEADER TEXT */}
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
+            สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
+          </div>
 
-        {/* BOTTOM CAPTION */}
-        <div style={{ position: "absolute", bottom: "10mm", left: 0, right: 0, textAlign: "center", fontSize: "16px" }}>
-          แสดงภาพสเก็ตช์ ภาพถ่าย หรือชิ้นงาน แบบงาน
+          {/* SECOND LINE */}
+          <div style={{ borderTop: "1.5px solid #8b4513", marginBottom: "2mm" }} />
+
+          {/* TITLE */}
+          <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", marginBottom: "2mm" }}>
+            บันทึกประจำวัน
+          </div>
+
+
+          {/* SINGLE COLUMN TABLE */}
+          <div
+            style={{
+              border: "1px solid #000",
+            }}
+          >
+            {/* Row 1: Info Line */}
+            <ColumnInfo data={data} />
+
+            {/* Row 2: Sketch Area (Empty Box) */}
+            <div style={{ height: "140mm", borderBottom: "1px solid #000", position: "relative" }}>
+            </div>
+
+            {/* Row 3: Lined Area */}
+            <ColumnLined data={data} />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function ColumnInfo({ data, isLeft }) {
-  const dotLine = (width = "40mm", value = "") => (
-    <span style={{ display: "inline-block", width, borderBottom: "1px dotted #333", textAlign: "center", margin: "0 1mm", verticalAlign: "bottom" }}>
+function ColumnInfo({ data }) {
+  const dotLine = (width = "20mm", value = "") => (
+    <span style={{ display: "inline-block", width, borderBottom: "1px solid #000", textAlign: "center", margin: "0 0.5mm", verticalAlign: "bottom", minHeight: "1.2em" }}>
       {value || "\u00a0"}
     </span>
   );
   return (
-    <div style={{ padding: "3mm 2mm", borderRight: isLeft ? "1px solid #000" : "none", fontSize: "16px", height: "30mm", boxSizing: "border-box" }}>
-      <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", marginBottom: "1mm" }}>
-        ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("15mm", data.date)}เดือน{dotLine("18mm", data.month)}พ.ศ.{dotLine("15mm", data.year)}
-      </div>
-      <div style={{ textAlign: "center", fontWeight: "bold", margin: "1mm 0" }}>เวลาปฏิบัติงาน</div>
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        เริ่ม{dotLine("18mm", data.startTime)}น. ถึง{dotLine("18mm", data.endTime)}น.
+    <div style={{ padding: "1.5mm 2mm", fontSize: "13px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", marginBottom: "2px" }}>
+          <span style={{ marginRight: "1mm" }}>( {data.recordNo || "\u00a0\u00a0"} )</span>
+          <span>วันที่</span>{dotLine("10mm", data.date)}
+          <span>เดือน</span>{dotLine("25mm", data.month)}
+          <span>พ.ศ.</span>{dotLine("12mm", data.year)}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", marginBottom: "2px" }}>
+          <span style={{ marginLeft: "1mm" }}>เริ่มปฏิบัติงานเวลา</span>{dotLine("18mm", data.startTime)}
+          <span>น.</span>
+          <span style={{ marginLeft: "2mm" }}>สิ้นสุดเวลา</span>{dotLine("18mm", data.endTime)}
+          <span>น.</span>
+        </div>
       </div>
     </div>
   );
 }
 
-function ColumnLined({ data, isLeft }) {
-  const LINE_H = "8mm";
-  const LINE_COUNT = 18;
+function ColumnLined({ data }) {
+  const LINE_H = "8.5mm";
+  const LINE_COUNT = 10;
   const lines = data.work ? data.work.split("\n") : [];
   return (
-    <div style={{ borderTop: "1px solid #000", borderRight: isLeft ? "1px solid #000" : "none", padding: "0 3mm", minHeight: "150mm", boxSizing: "border-box" }}>
+    <div style={{ padding: "0 4mm", minHeight: "85mm", boxSizing: "border-box" }}>
       {Array.from({ length: LINE_COUNT }).map((_, i) => (
-        <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #aaa", display: "flex", alignItems: "flex-end", paddingBottom: "1mm" }}>
-          <span style={{ fontSize: "16px", whiteSpace: "pre" }}>{lines[i] || ""}</span>
+        <div key={i} style={{ height: LINE_H, borderBottom: i === LINE_COUNT - 1 ? "none" : "1px dotted #333", display: "flex", alignItems: "flex-end", paddingBottom: "1mm" }}>
+          <span style={{ fontSize: "15px", whiteSpace: "pre" }}>{lines[i] || ""}</span>
         </div>
       ))}
     </div>

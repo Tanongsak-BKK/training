@@ -18,33 +18,46 @@ export default function DailyTwoColumnPage() {
   const [rightData, setRightData] = useState(emptyData());
 
   const exportPDF = () => {
-    // dynamically load html2pdf
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
+    const filename = leftData.recordNo ? `บันทึกประจำวัน_ลำดับที่_${leftData.recordNo}.pdf` : "บันทึกประจำวัน.pdf";
 
-    const script = document.createElement("script");
-    script.src =
-      "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-    script.onload = () => {
+    const runExport = () => {
       const element = pdfRef.current;
       const opt = {
         margin: 0,
-        filename: "daily-record.pdf",
+        filename: filename,
         image: { type: "jpeg", quality: 1 },
-        html2canvas: { 
-          scale: 2, 
-          useCORS: true, 
+        html2canvas: {
+          scale: 3, // Increased scale for better clarity
+          useCORS: true,
           logging: false,
+          letterRendering: true,
           scrollY: 0,
-          scrollX: 0
+          scrollX: 0,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: 'avoid-all' }
       };
       window.html2pdf().set(opt).from(element).save();
     };
-    document.head.appendChild(script);
+
+    if (window.html2pdf) {
+      runExport();
+    } else {
+      // Load Font if not exists
+      if (!document.getElementById("font-sarabun")) {
+        const link = document.createElement("link");
+        link.id = "font-sarabun";
+        link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
+        link.rel = "stylesheet";
+        document.head.appendChild(link);
+      }
+
+      // Load html2pdf script
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+      script.onload = runExport;
+      document.head.appendChild(script);
+    }
   };
 
   const inputStyle = {
@@ -168,44 +181,46 @@ export default function DailyTwoColumnPage() {
       </div>
 
       {/* ===== PDF PREVIEW ===== */}
-      <div
-        ref={pdfRef}
-        style={{
-          width: "210mm",
-          height: "297mm",
-          background: "#fff",
-          margin: "0 auto",
-          padding: "4mm 12mm 12mm",
-          boxSizing: "border-box",
-          fontFamily: "'Sarabun', sans-serif",
-          position: "relative",
-          fontSize: "16px",
-          overflow: "hidden",
-          textRendering: "geometricPrecision",
-          WebkitFontSmoothing: "antialiased",
-          letterSpacing: "normal"
-        }}
-      >
-        {/* PAGE NUMBER top-right */}
-        <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
-          {leftData.page}
-        </div>
+      <div style={{ display: "flex", justifyContent: "center", paddingBottom: "40px" }}>
+        <div
+          ref={pdfRef}
+          style={{
+            width: "210mm",
+            height: "296mm",
+            background: "#fff",
+            padding: "4mm 12mm 12mm",
+            boxSizing: "border-box",
+            boxShadow: "0 0 15px rgba(0,0,0,0.15)",
+            fontFamily: "'Sarabun', sans-serif",
+            position: "relative",
+            fontSize: "16px",
+            color: "#000",
+            overflow: "hidden",
+            textRendering: "geometricPrecision",
+            WebkitFontSmoothing: "antialiased",
+            letterSpacing: "normal"
+          }}
+        >
+          {/* PAGE NUMBER top-right */}
+          <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+            {leftData.page}
+          </div>
 
-        {/* HEADER LINE 1 – thin brown top bar */}
-        <div style={{ borderTop: "3px solid #8b4513", marginBottom: "8mm" }} />
+          {/* HEADER LINE 1 – thin brown top bar */}
+          <div style={{ borderTop: "3px solid #8b4513", marginBottom: "5mm" }} />
 
-        {/* HEADER TEXT */}
-        <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
-          สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
-        </div>
+          {/* HEADER TEXT */}
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
+            สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
+          </div>
 
-        {/* SECOND LINE */}
-        <div style={{ borderTop: "1.5px solid #8b4513", marginBottom: "3mm" }} />
+          {/* SECOND LINE */}
+          <div style={{ borderTop: "1.5px solid #8b4513", marginBottom: "2mm" }} />
 
-        {/* TITLE */}
-        <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "4mm" }}>
-          บันทึกประจำวัน
-        </div>
+          {/* TITLE */}
+          <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", marginBottom: "2mm" }}>
+            บันทึกประจำวัน
+          </div>
         
 
         {/* TWO COLUMN TABLE */}
@@ -227,6 +242,7 @@ export default function DailyTwoColumnPage() {
         <div style={{ position: "absolute", bottom: "10mm", left: 0, right: 0, textAlign: "center", fontSize: "16px" }}>
           แสดงภาพสเก็ตช์ ภาพถ่าย หรือชิ้นงาน แบบงาน
         </div>
+        </div>
       </div>
     </div>
   );
@@ -242,7 +258,7 @@ function ColumnContent({ data, isLeft }) {
       style={{
         display: "inline-block",
         width,
-        borderBottom: "1px dotted #333",
+        borderBottom: "1px dotted #000",
         verticalAlign: "bottom",
         textAlign: "center",
         marginLeft: "1mm",
@@ -292,7 +308,7 @@ function ColumnContent({ data, isLeft }) {
             key={i}
             style={{
               height: LINE_H,
-              borderBottom: "1px dotted #aaa",
+              borderBottom: "1px dotted #333",
               position: "relative",
               display: "flex",
               alignItems: "flex-end",
