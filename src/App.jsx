@@ -1,10 +1,10 @@
 import './App.css'
-import DailyTwoColumnPage from './page/DailyTwoColumnPage'
+import DailySingleColumnPage from './page/DailySingleColumnPage'
 
 function App() {
   return (
     <>
-      <DailyTwoColumnPage />
+      <DailySingleColumnPage />
     </>
   )
 }
