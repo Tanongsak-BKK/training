@@ -207,15 +207,15 @@ export default function DailyTwoColumnPage() {
           </div>
 
           {/* HEADER LINE 1 – thin brown top bar */}
-          <div style={{ borderTop: "3px solid #8b4513", marginBottom: "5mm" }} />
+          <div style={{ marginBottom: "5mm" }} />
 
           {/* HEADER TEXT */}
-          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "5mm" }}>
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
           {/* SECOND LINE */}
-          <div style={{ borderTop: "1.5px solid #8b4513", marginBottom: "2mm" }} />
+          <div style={{ borderTop: "3px solid #8b4513", marginBottom: "2mm" }} />
 
           {/* TITLE */}
           <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", marginBottom: "2mm" }}>
