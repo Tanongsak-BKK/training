@@ -229,13 +229,14 @@ export default function DailyTwoColumnPage() {
         
 
         {/* TWO COLUMN TABLE */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            border: "1px solid #000",
-          }}
-        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              border: "1px solid #000",
+              width: "100%",
+            }}
+          >
           {/* LEFT COLUMN */}
           <ColumnContent data={leftData} inlineInput={inlineInput} setData={setLeftData} isLeft={true} />
 
@@ -310,12 +311,13 @@ function ColumnContent({ data, isLeft }) {
         borderRight: isLeft ? "1px solid #000" : "none",
         display: "flex",
         flexDirection: "column",
+        overflow: "hidden", // Ensure nothing leaks
       }}
     >
       {/* TOP SECTION */}
       <div style={{ padding: "3mm 2mm 2mm", fontSize: "16px", lineHeight: "1.5", borderBottom: "1px solid #000" }}>
         <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", marginBottom: "1mm" }}>
-          ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("15mm", data.date)}เดือน{dotLine("20mm", data.month)}พ.ศ. {dotLine("20mm", data.year)}
+          ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("12mm", data.date)}เดือน{dotLine("18mm", data.month)}พ.ศ. {dotLine("18mm", data.year)}
         </div>
         <div style={{ textAlign: "center", marginBottom: "1mm", fontWeight: "bold" }}>เวลาปฏิบัติงาน</div>
         <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center" }}>
@@ -362,8 +364,9 @@ function ColumnContent({ data, isLeft }) {
           justifyContent: "flex-end",
         }}
       >
-        <div style={{ fontSize: "16px" }}>
-          ลงชื่อผู้ควบคุมการฝึกงาน ........................................
+        <div style={{ fontSize: "16px", display: "flex", alignItems: "flex-end" }}>
+          <span style={{ whiteSpace: "nowrap" }}>ลงชื่อผู้ควบคุมการฝึกงาน</span>
+          <span style={{ flex: 1, borderBottom: "1px dotted #000", marginLeft: "2mm", marginBottom: "1.5mm" }} />
         </div>
       </div>
     </div>
