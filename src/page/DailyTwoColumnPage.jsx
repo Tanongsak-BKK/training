@@ -235,6 +235,8 @@ export default function DailyTwoColumnPage() {
               gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
               border: "1px solid #000",
               width: "100%",
+              boxSizing: "border-box",
+              overflow: "hidden",
             }}
           >
           {/* LEFT COLUMN */}
@@ -316,12 +318,12 @@ function ColumnContent({ data, isLeft }) {
     >
       {/* TOP SECTION */}
       <div style={{ padding: "3mm 2mm 2mm", fontSize: "16px", lineHeight: "1.5", borderBottom: "1px solid #000" }}>
-        <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", marginBottom: "1mm" }}>
-          ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("12mm", data.date)}เดือน{dotLine("18mm", data.month)}พ.ศ. {dotLine("18mm", data.year)}
+        <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", marginBottom: "1mm", overflow: "hidden" }}>
+          ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("10mm", data.date)}เดือน{dotLine("15mm", data.month)}พ.ศ. {dotLine("15mm", data.year)}
         </div>
         <div style={{ textAlign: "center", marginBottom: "1mm", fontWeight: "bold" }}>เวลาปฏิบัติงาน</div>
-        <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center" }}>
-          เริ่ม{dotLine("18mm", data.startTime)}น. สิ้นสุดเวลา{dotLine("18mm", data.endTime)}น.
+        <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", overflow: "hidden" }}>
+          เริ่ม{dotLine("15mm", data.startTime)}น. สิ้นสุดเวลา{dotLine("15mm", data.endTime)}น.
         </div>
       </div>
 
