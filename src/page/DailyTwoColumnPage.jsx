@@ -175,7 +175,7 @@ export default function DailyTwoColumnPage() {
           height: "297mm",
           background: "#fff",
           margin: "0 auto",
-          padding: "10mm 12mm 12mm",
+          padding: "6mm 12mm 12mm",
           boxSizing: "border-box",
           fontFamily: "'Sarabun', sans-serif",
           position: "relative",
@@ -187,7 +187,7 @@ export default function DailyTwoColumnPage() {
         }}
       >
         {/* PAGE NUMBER top-right */}
-        <div style={{ position: "absolute", top: "8mm", right: "12mm", fontSize: "16px" }}>
+        <div style={{ position: "absolute", top: "1mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
           {leftData.page}
         </div>
 
