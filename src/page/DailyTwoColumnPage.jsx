@@ -276,8 +276,33 @@ function ColumnContent({ data, isLeft }) {
     </span>
   );
 
-  // split work text into lines for PDF rendering
-  const lines = data.work ? data.work.split("\n") : [];
+  // Custom wrap function for Thai text: counts only base characters (excluding non-spacing vowels/marks)
+  const getWrappedLines = (text, maxChars) => {
+    if (!text) return [];
+    const rawLines = text.split("\n");
+    const result = [];
+    for (let line of rawLines) {
+      let current = "";
+      let count = 0;
+      for (let char of line) {
+        // Thai non-spacing characters (upper/lower vowels, tone marks)
+        const isMark = /[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/.test(char);
+        if (!isMark) {
+          if (count >= maxChars) {
+            result.push(current);
+            current = "";
+            count = 0;
+          }
+          count++;
+        }
+        current += char;
+      }
+      result.push(current);
+    }
+    return result;
+  };
+
+  const lines = getWrappedLines(data.work, 37);
 
   return (
     <div
