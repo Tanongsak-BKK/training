@@ -210,7 +210,7 @@ export default function DailyTwoColumnPage() {
           <div style={{ marginBottom: "5mm" }} />
 
           {/* HEADER TEXT */}
-          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "5mm" }}>
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "15mm" }}>
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
