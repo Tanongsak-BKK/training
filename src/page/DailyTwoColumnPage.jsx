@@ -256,7 +256,7 @@ export default function DailyTwoColumnPage() {
 /* One column inside the PDF */
 function ColumnContent({ data, isLeft }) {
   const LINE_H = "8mm";
-  const LINE_COUNT = 18; // lines in writing area
+  const LINE_COUNT = 14; // lines in writing area
 
   const dotLine = (width = "40mm", value = "") => (
     <span
@@ -290,11 +290,11 @@ function ColumnContent({ data, isLeft }) {
       {/* TOP SECTION */}
       <div style={{ padding: "3mm 2mm 2mm", fontSize: "16px", lineHeight: "1.5", borderBottom: "1px solid #000" }}>
         <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center", marginBottom: "1mm" }}>
-          ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("15mm", data.date)}เดือน{dotLine("18mm", data.month)}พ.ศ.{dotLine("15mm", data.year)}
+          ( {data.recordNo || "\u00a0\u00a0"} ) วันที่{dotLine("15mm", data.date)}เดือน{dotLine("20mm", data.month)}พ.ศ. {dotLine("20mm", data.year)}
         </div>
         <div style={{ textAlign: "center", marginBottom: "1mm", fontWeight: "bold" }}>เวลาปฏิบัติงาน</div>
         <div style={{ display: "flex", whiteSpace: "nowrap", alignItems: "center" }}>
-          เริ่ม{dotLine("18mm", data.startTime)}น. ถึง{dotLine("18mm", data.endTime)}น.
+          เริ่ม{dotLine("18mm", data.startTime)}น. สิ้นสุดเวลา{dotLine("18mm", data.endTime)}น.
         </div>
       </div>
 
@@ -331,14 +331,14 @@ function ColumnContent({ data, isLeft }) {
         style={{
           borderTop: "1px solid #000",
           padding: "2mm 3mm 3mm",
-          minHeight: "45mm",
+          minHeight: "75mm",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
         }}
       >
         <div style={{ fontSize: "16px" }}>
-          ลงชื่อผู้ควบคุมการฝึกงาน ............................
+          ลงชื่อผู้ควบคุมการฝึกงาน ........................................
         </div>
       </div>
     </div>
