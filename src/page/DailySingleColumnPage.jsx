@@ -242,14 +242,33 @@ function ColumnInfo({ data }) {
 function ColumnLined({ data }) {
   const LINE_H = "8.5mm";
   const LINE_COUNT = 10;
-  const lines = data.work ? data.work.split("\n") : [];
   return (
-    <div style={{ padding: "0 4mm", minHeight: "85mm", boxSizing: "border-box" }}>
-      {Array.from({ length: LINE_COUNT }).map((_, i) => (
-        <div key={i} style={{ height: LINE_H, borderBottom: i === LINE_COUNT - 1 ? "none" : "1px dotted #333", display: "flex", alignItems: "flex-end", paddingBottom: "1mm" }}>
-          <span style={{ fontSize: "15px", whiteSpace: "pre" }}>{lines[i] || ""}</span>
-        </div>
-      ))}
+    <div style={{ 
+      padding: "0 4mm", 
+      minHeight: "85mm", 
+      boxSizing: "border-box", 
+      position: "relative" 
+    }}>
+      {/* Background Ruled Lines */}
+      <div style={{ position: "absolute", top: 0, left: "4mm", right: "4mm", bottom: 0, pointerEvents: "none" }}>
+        {Array.from({ length: LINE_COUNT }).map((_, i) => (
+          <div key={i} style={{ height: LINE_H, borderBottom: i === LINE_COUNT - 1 ? "none" : "1px dotted #333" }} />
+        ))}
+      </div>
+
+      {/* Wrapping Text Layer */}
+      <div style={{ 
+        position: "relative", 
+        zIndex: 1, 
+        fontSize: "15px", 
+        lineHeight: LINE_H, 
+        whiteSpace: "pre-wrap", 
+        wordBreak: "break-all",
+        overflow: "hidden",
+        maxHeight: `calc(${LINE_H} * ${LINE_COUNT})`,
+      }}>
+        {data.work}
+      </div>
     </div>
   );
 }

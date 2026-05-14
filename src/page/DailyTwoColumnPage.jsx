@@ -298,7 +298,7 @@ function ColumnContent({ data, isLeft }) {
         </div>
       </div>
 
-      {/* WRITING AREA – lined */}
+      {/* WRITING AREA – lined with background lines and wrapping text */}
       <div
         style={{
           flex: 1,
@@ -307,23 +307,26 @@ function ColumnContent({ data, isLeft }) {
           minHeight: "100mm",
         }}
       >
-        {/* Horizontal ruled lines */}
-        {Array.from({ length: LINE_COUNT }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              height: LINE_H,
-              borderBottom: "1px dotted #333",
-              position: "relative",
-              display: "flex",
-              alignItems: "flex-end",
-            }}
-          >
-            <span style={{ fontSize: "16px", lineHeight: LINE_H, whiteSpace: "pre" }}>
-              {lines[i] || ""}
-            </span>
-          </div>
-        ))}
+        {/* Background Ruled Lines */}
+        <div style={{ position: "absolute", top: 0, left: "3mm", right: "3mm", bottom: 0, pointerEvents: "none" }}>
+          {Array.from({ length: LINE_COUNT }).map((_, i) => (
+            <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #333" }} />
+          ))}
+        </div>
+
+        {/* Wrapping Text Layer */}
+        <div style={{ 
+          position: "relative", 
+          zIndex: 1, 
+          fontSize: "16px", 
+          lineHeight: LINE_H, 
+          whiteSpace: "pre-wrap", 
+          wordBreak: "break-all",
+          overflow: "hidden",
+          maxHeight: `calc(${LINE_H} * ${LINE_COUNT})`,
+        }}>
+          {data.work}
+        </div>
       </div>
 
       {/* BOTTOM SIGNATURE AREA */}
