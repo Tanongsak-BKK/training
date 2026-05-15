@@ -4,7 +4,7 @@ export default function DailyWorkplaceProcessPage() {
   const pdfRef = useRef();
 
   const [data, setData] = useState({
-    page: "5",
+    page: "",
     processImage: null,
     orgImage: null,
   });
