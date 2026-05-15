@@ -5,57 +5,54 @@ export default function DailyWorkplaceInfoPage() {
   const pdfRef = useRef();
   const { workplaceData: data, setWorkplaceData: setData } = useGlobalData();
 
-  const exportPDF = async () => {
-  const filename = "รายงานการปฏิบัติงานรายวัน.pdf";
-
-  // 1. โหลด html2pdf ถ้ายังไม่มี
-  if (!window.html2pdf) {
+const exportPDF = async () => {
+  // โหลด jsPDF
+  if (!window.jspdf) {
     await new Promise((resolve) => {
       const script = document.createElement("script");
-      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
       script.onload = resolve;
       document.head.appendChild(script);
     });
   }
 
-  // 2. โหลด Sarabun font ด้วย FontFace API และรอให้พร้อม
-  const font = new FontFace(
-    "Sarabun",
-    "url(https://fonts.gstatic.com/s/sarabun/v15/DtVmJx26TKEr37c9YK5sulwm6gDXvwE.woff2)"
-  );
-  await font.load();
-  document.fonts.add(font);
-  await document.fonts.ready;
+  // โหลด html2canvas
+  if (!window.html2canvas) {
+    await new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+      script.onload = resolve;
+      document.head.appendChild(script);
+    });
+  }
 
-  // 3. Export
   const element = pdfRef.current;
-  const opt = {
-    margin: 0,
-    filename: filename,
-    image: { type: "jpeg", quality: 1 },
-    html2canvas: {
-      scale: 3,
-      useCORS: true,
-      logging: false,
-      letterRendering: true,
-      scrollY: 0,
-      scrollX: 0,
-      onclone: async (clonedDoc) => {
-        // ใส่ font เข้า cloned document ด้วย
-        const clonedFont = new clonedDoc.defaultView.FontFace(
-          "Sarabun",
-          "url(https://fonts.gstatic.com/s/sarabun/v15/DtVmJx26TKEr37c9YK5sulwm6gDXvwE.woff2)"
-        );
-        await clonedFont.load();
-        clonedDoc.fonts.add(clonedFont);
-        await clonedDoc.fonts.ready;
-      },
-    },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    pagebreak: { mode: "avoid-all" },
-  };
+  const { jsPDF } = window.jspdf;
 
-  window.html2pdf().set(opt).from(element).save();
+  // Render เป็นรูปภาพ scale สูงๆ เพื่อความคมชัด
+  const canvas = await window.html2canvas(element, {
+    scale: 4,
+    useCORS: true,
+    logging: false,
+    scrollY: 0,
+    scrollX: 0,
+    windowWidth: element.scrollWidth,
+    windowHeight: element.scrollHeight,
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4",
+  });
+
+  const pdfWidth = 210;
+  const pdfHeight = 297;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.save("รายงานการปฏิบัติงานรายวัน.pdf");
 };
 
   const formInput = (label, val, onChange, type = "text") => (
