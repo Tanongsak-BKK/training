@@ -242,7 +242,7 @@ function SectionWithLines({ label, content, lineCount }) {
           wordBreak: "break-all",
           overflow: "hidden",
           padding: "0 1mm",
-          textAlign: "right",
+          textAlign: "justify",
         }}>
           {content}
         </div>
