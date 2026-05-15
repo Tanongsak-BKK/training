@@ -1,8 +1,14 @@
 # ระบบบันทึกสหกิจศึกษา (Cooperative Education Diary System)
 
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://training-lime-eight.vercel.app/)
+
 แอปพลิเคชันสำหรับบันทึกข้อมูลการปฏิบัติงานสหกิจศึกษา พัฒนาด้วย React และ Vite รองรับการส่งออกไฟล์เป็น PDF ที่จัดเลย์เอาต์ให้สวยงามและพร้อมสำหรับการพิมพ์ (A4)
 
+## 🌐 Live Demo
+สามารถทดลองใช้งานได้ที่: [https://training-lime-eight.vercel.app/](https://training-lime-eight.vercel.app/)
+
 ## 🚀 ฟีเจอร์หลัก (Key Features)
+
 
 - **PDF Export**: ส่งออกไฟล์ PDF คุณภาพสูงด้วย `html2pdf.js`
 - **Dynamic Previews**: แสดงตัวอย่างเอกสารแบบ Real-time ขณะกรอกข้อมูล
