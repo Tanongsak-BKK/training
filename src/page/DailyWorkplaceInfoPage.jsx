@@ -204,38 +204,45 @@ export default function DailyWorkplaceInfoPage() {
 }
 
 function SectionWithLines({ label, content, lineCount }) {
-  const LINE_H = "7.0mm";
+  const LINE_H = "7.5mm";
   
   return (
-    <div style={{ marginBottom: "2mm" }}>
-      <div style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "0.2mm" }}>
-        {label}
+    <div style={{ marginBottom: "1mm", position: "relative" }}>
+      {/* Label and first line dots */}
+      <div style={{ display: "flex", alignItems: "flex-end", height: LINE_H }}>
+        <div style={{ fontSize: "14.5px", fontWeight: "bold", paddingRight: "2mm", whiteSpace: "nowrap", background: "#fff", position: "relative", zIndex: 2 }}>
+          {label}
+        </div>
+        <div style={{ flex: 1, borderBottom: "1px dotted #888", marginBottom: "1px", position: "relative", zIndex: 1 }}></div>
       </div>
 
-      <div style={{ position: "relative", minHeight: `calc(${LINE_H} * ${lineCount})` }}>
-        {/* Background Ruled Lines */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, pointerEvents: "none" }}>
-          {Array.from({ length: lineCount }).map((_, i) => (
-            <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #888" }} />
-          ))}
-        </div>
+      {/* Remaining lines */}
+      {Array.from({ length: lineCount - 1 }).map((_, i) => (
+        <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #888" }} />
+      ))}
 
-        {/* Wrapping Text Layer */}
-        <div style={{ 
-          position: "relative", 
-          zIndex: 1, 
-          fontSize: "14.5px", 
-          lineHeight: LINE_H, 
-          whiteSpace: "pre-wrap", 
-          wordBreak: "break-all",
-          overflow: "hidden",
-          padding: "0 1mm"
-        }}>
-          {content}
-        </div>
+      {/* Content Text Layer */}
+      <div style={{ 
+        position: "absolute", 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        zIndex: 3, 
+        fontSize: "14.5px", 
+        lineHeight: LINE_H, 
+        whiteSpace: "pre-wrap", 
+        wordBreak: "break-all",
+        overflow: "hidden",
+      }}>
+        {/* We need to handle the first line indent carefully. 
+            Using a span for the label's width equivalent handles the indentation. */}
+        <span style={{ visibility: "hidden", paddingRight: "2mm", fontWeight: "bold" }}>{label}</span>
+        {content}
       </div>
+
     </div>
   );
 }
+
 
 
