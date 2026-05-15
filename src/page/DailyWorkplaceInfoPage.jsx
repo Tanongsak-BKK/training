@@ -164,9 +164,8 @@ export default function DailyWorkplaceInfoPage() {
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
-          {/* DOUBLE LINE (BROWN) */}
-          <div style={{ borderTop: "3px solid #8b4513", marginBottom: "1mm" }} />
-          <div style={{ borderTop: "1px solid #8b4513", marginBottom: "4mm" }} />
+          {/* BOTTOM BROWN LINE */}
+          <div style={{ borderTop: "5px solid #8b4513", marginBottom: "8mm" }} />
 
           {/* TITLE */}
           <div style={{ textAlign: "center", fontSize: "19px", fontWeight: "bold", marginBottom: "5mm" }}>
