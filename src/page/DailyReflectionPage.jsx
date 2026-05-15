@@ -234,7 +234,7 @@ function SectionWithLines({ title, content }) {
           wordBreak: "break-all",
           overflow: "hidden",
           padding: "0 2mm",        // เปลี่ยนจาก paddingLeft
-          textAlign: "right",  
+          textAlign: "justify",  
         }}>
           {content}
         </div>
