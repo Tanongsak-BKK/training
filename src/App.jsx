@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import DailySingleColumnPage from './page/DailySingleColumnPage'
 import DailyTwoColumnPage from './page/DailyTwoColumnPage'
+import DailyReflectionPage from './page/DailyReflectionPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('single')
@@ -59,12 +60,19 @@ function App() {
         >
           แบบ 2 คอลัมน์
         </button>
+        <button 
+          style={buttonStyle(currentPage === 'reflection')} 
+          onClick={() => setCurrentPage('reflection')}
+        >
+          รายละเอียด/สรุปผล
+        </button>
       </div>
 
       {/* Main Content */}
       <div style={mainContentStyle}>
         {currentPage === 'single' && <DailySingleColumnPage />}
         {currentPage === 'two' && <DailyTwoColumnPage />}
+        {currentPage === 'reflection' && <DailyReflectionPage />}
       </div>
     </div>
   )
