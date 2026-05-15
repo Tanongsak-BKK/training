@@ -4,7 +4,7 @@ export default function DailyWorkplaceInfoPage() {
   const pdfRef = useRef();
 
   const emptyData = () => ({
-    page: "4",
+    page: "",
     workplaceName: "",
     workplaceLocation: "",
     workplaceHistory: "",
@@ -141,7 +141,7 @@ export default function DailyWorkplaceInfoPage() {
             width: "210mm",
             height: "296mm",
             background: "#fff",
-            padding: "4mm 12mm 12mm",
+            padding: "6mm 15mm 12mm",
             boxSizing: "border-box",
             boxShadow: "0 0 15px rgba(0,0,0,0.15)",
             fontFamily: "'Sarabun', sans-serif",
@@ -155,21 +155,21 @@ export default function DailyWorkplaceInfoPage() {
           }}
         >
           {/* PAGE NUMBER top-right */}
-          <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+          <div style={{ position: "absolute", top: "7mm", right: "15mm", fontSize: "16px", lineHeight: 1 }}>
             {data.page}
           </div>
 
           {/* HEADER TEXT */}
-          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "10mm" }}>
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "4mm" }}>
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
           {/* DOUBLE LINE (BROWN) */}
           <div style={{ borderTop: "3px solid #8b4513", marginBottom: "1mm" }} />
-          <div style={{ borderTop: "1px solid #8b4513", marginBottom: "10mm" }} />
+          <div style={{ borderTop: "1px solid #8b4513", marginBottom: "4mm" }} />
 
           {/* TITLE */}
-          <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold", marginBottom: "8mm" }}>
+          <div style={{ textAlign: "center", fontSize: "19px", fontWeight: "bold", marginBottom: "5mm" }}>
             รายงานการปฏิบัติงานรายวัน
           </div>
 
@@ -205,18 +205,19 @@ export default function DailyWorkplaceInfoPage() {
 }
 
 function SectionWithLines({ label, content, lineCount }) {
-  const LINE_H = "8.5mm";
+  const LINE_H = "7.0mm";
   
   return (
-    <div style={{ marginBottom: "5mm" }}>
-      <div style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "1mm" }}>
+    <div style={{ marginBottom: "2mm" }}>
+      <div style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "0.2mm" }}>
         {label}
       </div>
+
       <div style={{ position: "relative", minHeight: `calc(${LINE_H} * ${lineCount})` }}>
         {/* Background Ruled Lines */}
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, pointerEvents: "none" }}>
           {Array.from({ length: lineCount }).map((_, i) => (
-            <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #666" }} />
+            <div key={i} style={{ height: LINE_H, borderBottom: "1px dotted #888" }} />
           ))}
         </div>
 
@@ -224,7 +225,7 @@ function SectionWithLines({ label, content, lineCount }) {
         <div style={{ 
           position: "relative", 
           zIndex: 1, 
-          fontSize: "15px", 
+          fontSize: "14.5px", 
           lineHeight: LINE_H, 
           whiteSpace: "pre-wrap", 
           wordBreak: "break-all",
@@ -237,4 +238,5 @@ function SectionWithLines({ label, content, lineCount }) {
     </div>
   );
 }
+
 
