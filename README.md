@@ -1,16 +1,48 @@
-# React + Vite
+# ระบบบันทึกสหกิจศึกษา (Cooperative Education Diary System)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+แอปพลิเคชันสำหรับบันทึกข้อมูลการปฏิบัติงานสหกิจศึกษา พัฒนาด้วย React และ Vite รองรับการส่งออกไฟล์เป็น PDF ที่จัดเลย์เอาต์ให้สวยงามและพร้อมสำหรับการพิมพ์ (A4)
 
-Currently, two official plugins are available:
+## 🚀 ฟีเจอร์หลัก (Key Features)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **PDF Export**: ส่งออกไฟล์ PDF คุณภาพสูงด้วย `html2pdf.js`
+- **Dynamic Previews**: แสดงตัวอย่างเอกสารแบบ Real-time ขณะกรอกข้อมูล
+- **Responsive Sidebar**: ระบบเมนูที่ใช้งานง่าย สลับหน้าบันทึกต่างๆ ได้รวดเร็ว
+- **A4 Layout Optimization**: ทุกหน้าถูกออกแบบมาให้พอดีกับกระดาษ A4 1 หน้าพอดี
+- **Thai Language Support**: รองรับการตัดคำภาษาไทยและการแสดงผลฟอนต์ Sarabun
 
-## React Compiler
+## 📂 โครงสร้างหน้าเว็บ (Page Structure)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+ปัจจุบันมีหน้าบันทึกทั้งหมด 5 รูปแบบ:
 
-## Expanding the ESLint configuration
+1.  **แบบ 1 คอลัมน์ (Daily Single Column)**:
+    - เหมาะสำหรับบันทึกรายละเอียดงานที่มีความยาว
+    - มีส่วนสรุปข้อมูลด้านบน และพื้นที่เขียนพร้อมเส้นบรรทัด
+2.  **แบบ 2 คอลัมน์ (Daily Two Column)**:
+    - ออกแบบมาเพื่อประหยัดพื้นที่กระดาษ (บันทึกได้ 2 วันใน 1 หน้า)
+    - มีระบบตัดคำภาษาไทยอัตโนมัติ (37 ตัวอักษรต่อบรรทัด) เพื่อไม่ให้ข้อความล้นเส้น
+3.  **รายละเอียด/สรุปผล (Daily Reflection)**:
+    - หน้าสำหรับสรุปรายละเอียดแผนก ปัญหา อุปสรรค และข้อเสนอแนะ
+    - พื้นที่เขียนขนาดใหญ่ แบ่งเป็นสัดส่วนชัดเจน
+4.  **รายงานปฏิบัติงานรายวัน (Workplace Info Report)**:
+    - รวบรวมข้อมูลสถานที่ปฏิบัติงาน ประวัติ และงานที่ได้รับมอบหมาย
+    - ปรับระยะห่าง (Margin) และหัวข้อให้เป็นระเบียบตามมาตรฐานเอกสารราชการ
+5.  **ผังโครงสร้าง/กระบวนการ (Workplace Process & Org Chart)**:
+    - หน้าสำหรับวางรูปภาพผังองค์กรและกระบวนการผลิต/บริการ
+    - มีกรอบรูปมาตรฐานพร้อมคำบรรยาย
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠 เทคโนโลยีที่ใช้ (Tech Stack)
+
+- **Frontend**: React (Hooks, Functional Components)
+- **Styling**: Vanilla CSS (Inline Styles สำหรับ PDF Layout เพื่อความแม่นยำ)
+- **PDF Generation**: [html2pdf.js](https://ekoopmans.github.io/html2pdf.js/)
+- **Fonts**: Google Fonts (Sarabun)
+
+## 📖 วิธีใช้งาน (How to Use)
+
+1.  เลือกหน้าบันทึกที่ต้องการจากแถบเมนูด้านซ้าย
+2.  กรอกข้อมูลลงในฟอร์มด้านบนหรือด้านข้าง
+3.  ตรวจสอบความเรียบร้อยในส่วน **PDF Preview**
+4.  กดปุ่ม **Export PDF** เพื่อบันทึกไฟล์ลงเครื่อง
+
+---
+*โปรเจกต์นี้ได้รับการพัฒนาเพื่ออำนวยความสะดวกแก่นักศึกษาในการจัดทำสมุดบันทึกสหกิจศึกษาให้เป็นมืออาชีพและสวยงาม*
