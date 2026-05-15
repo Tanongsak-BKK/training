@@ -11,7 +11,7 @@ import DailyBookDetailsPage from './page/DailyBookDetailsPage'
 
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('single')
+  const [currentPage, setCurrentPage] = useState('cover')
 
   const sidebarStyle = {
     width: '260px',
@@ -55,49 +55,47 @@ function App() {
           สมุดบันทึกสหกิจศึกษา
         </h2>
         <button 
-          style={buttonStyle(currentPage === 'single')} 
-          onClick={() => setCurrentPage('single')}
-        >
-          แบบ 1 คอลัมน์
-        </button>
-        <button 
-          style={buttonStyle(currentPage === 'two')} 
-          onClick={() => setCurrentPage('two')}
-        >
-          แบบ 2 คอลัมน์
-        </button>
-        <button 
-          style={buttonStyle(currentPage === 'reflection')} 
-          onClick={() => setCurrentPage('reflection')}
-        >
-          รายละเอียด/สรุปผล
-        </button>
-        <button 
-          style={buttonStyle(currentPage === 'workplace')} 
-          onClick={() => setCurrentPage('workplace')}
-        >
-          รายงานปฏิบัติงานรายวัน
-        </button>
-        <button 
-          style={buttonStyle(currentPage === 'process')} 
-          onClick={() => setCurrentPage('process')}
-        >
-          ผังโครงสร้าง/กระบวนการ
-        </button>
-        <button 
           style={buttonStyle(currentPage === 'cover')} 
           onClick={() => setCurrentPage('cover')}
         >
-          หน้าปกรายงาน
+          1. หน้าปกรายงาน
         </button>
         <button 
           style={buttonStyle(currentPage === 'book_details')} 
           onClick={() => setCurrentPage('book_details')}
         >
-          รายละเอียดเล่ม
+          2. รายละเอียดเล่ม
         </button>
-
-
+        <button 
+          style={buttonStyle(currentPage === 'workplace')} 
+          onClick={() => setCurrentPage('workplace')}
+        >
+          3. รายงานปฏิบัติงานรายวัน
+        </button>
+        <button 
+          style={buttonStyle(currentPage === 'process')} 
+          onClick={() => setCurrentPage('process')}
+        >
+          4. ผังโครงสร้าง/กระบวนการผลิต
+        </button>
+        <button 
+          style={buttonStyle(currentPage === 'reflection')} 
+          onClick={() => setCurrentPage('reflection')}
+        >
+          5. รายละเอียด/สรุปผล
+        </button>
+        <button 
+          style={buttonStyle(currentPage === 'two')} 
+          onClick={() => setCurrentPage('two')}
+        >
+          6. แบบ 2 คอลัมน์
+        </button>
+        <button 
+          style={buttonStyle(currentPage === 'single')} 
+          onClick={() => setCurrentPage('single')}
+        >
+          7. แบบ 1 คอลัมน์
+        </button>
       </div>
 
       {/* Main Content */}
