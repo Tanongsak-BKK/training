@@ -179,7 +179,7 @@ export default function DailyWorkplaceProcessPage() {
             </div>
             <div style={{ border: "1px solid #000", width: "100%", height: "90mm", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
                {data.processImage ? (
-                 <img src={data.processImage} alt="Process" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                 <img src={data.processImage} alt="Process" style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }} />
                ) : (
                  <span style={{ color: "#ccc", fontSize: "14px" }}>เลือกรูปภาพกระบวนการผลิต</span>
                )}
@@ -196,7 +196,7 @@ export default function DailyWorkplaceProcessPage() {
             </div>
             <div style={{ border: "1px solid #000", width: "100%", height: "90mm", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
                {data.orgImage ? (
-                 <img src={data.orgImage} alt="Org Chart" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                 <img src={data.orgImage} alt="Org Chart" style={{ maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto" }} />
                ) : (
                  <span style={{ color: "#ccc", fontSize: "14px" }}>เลือกรูปภาพผังโครงสร้าง</span>
                )}
