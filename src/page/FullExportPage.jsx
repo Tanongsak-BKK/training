@@ -48,24 +48,55 @@ export default function FullExportPage() {
     <div style={{ padding: 20, background: "#e8e8e8", minHeight: "100vh", fontFamily: "sans-serif" }}>
       <div style={{ maxWidth: "800px", margin: "0 auto 20px" }}>
         <div style={{ background: "#fff", padding: 24, borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,.15)", textAlign: "center" }}>
-          <h2 style={{ color: "#5a2d0c", marginBottom: 16 }}>Export ฉบับเต็ม (หน้า 1-7)</h2>
-          <p style={{ color: "#666", marginBottom: 24 }}>ระบบจะทำการรวบรวมข้อมูลจากทุกหน้ามาสร้างเป็นไฟล์ PDF เดียวกัน</p>
-          <p style={{ color: "#d93025", fontSize: "13px", marginBottom: 24 }}>*หมายเหตุ: หน้าที่ 2 (รายละเอียดเล่ม) ที่เป็นไฟล์ PDF เดิม ไม่สามารถนำมารวมอัตโนมัติได้ จะแสดงเป็นหน้าว่างหรือคำแนะนำแทน</p>
-          <button
-            onClick={exportPDF}
-            style={{
-              padding: "12px 40px",
-              background: "#8b4513",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              cursor: "pointer",
-              fontSize: 16,
-              fontWeight: "bold"
-            }}
-          >
-            ดาวน์โหลด PDF ฉบับเต็ม
-          </button>
+          <h2 style={{ color: "#000", marginBottom: 16 }}>Export ฉบับเต็ม (หน้า 1-7)</h2>
+          <p style={{ color: "#000", marginBottom: 24 }}>ระบบจะทำการรวบรวมข้อมูลจากทุกหน้ามาสร้างเป็นไฟล์ PDF เดียวกัน</p>
+          <p style={{ color: "#d93025", fontSize: "14px", fontWeight: "bold", marginBottom: 24 }}>
+            *หมายเหตุ: หน้าที่ 2 (รายละเอียดเล่ม) ไม่สามารถนำมารวมในไฟล์นี้ได้อัตโนมัติ <br/>
+            กรุณาดาวน์โหลดแยกจากปุ่มด้านล่างนี้:
+          </p>
+          
+          <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginBottom: "30px" }}>
+             <button
+              onClick={() => {
+                const link = document.createElement("a");
+                link.href = "/src/assets/รายระเอียด1.pdf";
+                link.download = "รายละเอียดเล่ม1.pdf";
+                link.click();
+              }}
+              style={{ padding: "10px 20px", background: "#5a2d0c", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: "14px" }}
+            >
+              Export รายละเอียดเล่ม 1
+            </button>
+            <button
+              onClick={() => {
+                const link = document.createElement("a");
+                link.href = "/src/assets/รายระเอียด2.pdf";
+                link.download = "รายละเอียดเล่ม2.pdf";
+                link.click();
+              }}
+              style={{ padding: "10px 20px", background: "#5a2d0c", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: "14px" }}
+            >
+              Export รายละเอียดเล่ม 2
+            </button>
+          </div>
+
+          <div style={{ borderTop: "1px solid #eee", paddingTop: "20px" }}>
+            <button
+              onClick={exportPDF}
+              style={{
+                padding: "12px 40px",
+                background: "#8b4513",
+                color: "#fff",
+                border: "none",
+                borderRadius: 6,
+                cursor: "pointer",
+                fontSize: 16,
+                fontWeight: "bold"
+              }}
+            >
+              ดาวน์โหลด PDF ฉบับเต็ม (หน้า 1, 3-7)
+            </button>
+          </div>
         </div>
       </div>
 
@@ -73,7 +104,7 @@ export default function FullExportPage() {
         <div ref={pdfRef} style={{ width: "210mm", background: "#fff", boxShadow: "0 0 15px rgba(0,0,0,0.15)" }}>
           
           {/* PAGE 1: COVER */}
-          <div className="pdf-page" style={{ width: "210mm", height: "297mm", padding: "20mm", boxSizing: "border-box", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "'Sarabun', sans-serif" }}>
+          <div className="pdf-page" style={{ width: "210mm", height: "297mm", padding: "20mm", boxSizing: "border-box", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "'Sarabun', sans-serif", color: "#000", textRendering: "geometricPrecision", WebkitFontSmoothing: "antialiased" }}>
             <div style={{ width: "100%", borderTop: "8px solid #8b4513", marginTop: "5mm", marginBottom: "15mm" }} />
             <div style={{ marginBottom: "15mm" }}>
               <img src={logo} alt="Logo" style={{ width: "55mm", height: "auto" }} />
@@ -82,7 +113,7 @@ export default function FullExportPage() {
             <div style={{ width: "100%", fontSize: "20px", marginBottom: "25mm", textAlign: "center", wordBreak: "break-word" }}>บริษัท {coverData.company}</div>
             <div style={{ fontSize: "20px", marginBottom: "10mm" }}>โดย</div>
             <div style={{ fontSize: "20px", marginBottom: "25mm", textAlign: "center", width: "100%", wordBreak: "break-word" }}>{coverData.name} รหัสนักศึกษา {coverData.studentId}</div>
-            <div style={{ marginTop: "auto", textAlign: "center", fontSize: "18px", lineHeight: "1.6", width: "100%" }}>
+            <div style={{ marginTop: "auto", textAlign: "center", fontSize: "18px", lineHeight: "1.6", width: "100%", fontWeight: "bold" }}>
               วิทยาลัยเทคโนโลยีอุตสาหกรรม<br />
               มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ<br />
               ปีการศึกษาที่ {coverData.academicYear}
@@ -159,7 +190,7 @@ export default function FullExportPage() {
           <div className="html2pdf__page-break" />
 
           {/* PAGE 7: SINGLE COLUMN */}
-          <div className="pdf-page" style={{ width: "210mm", height: "297mm", padding: "10mm 12mm", boxSizing: "border-box", position: "relative", fontFamily: "'Sarabun', sans-serif" }}>
+          <div className="pdf-page" style={{ width: "210mm", height: "297mm", padding: "10mm 12mm", boxSizing: "border-box", position: "relative", fontFamily: "'Sarabun', sans-serif", color: "#000", textRendering: "geometricPrecision", WebkitFontSmoothing: "antialiased" }}>
             <div style={{ position: "absolute", top: "7mm", right: "12mm" }}>{singleColumnData.page}</div>
             <div style={{ textAlign: "right", fontSize: "14px", marginTop: "10mm" }}>สมุดบันทึกการปฏิบัติงานสหกิจศึกษา...</div>
             <div style={{ borderTop: "3px solid #8b4513", marginBottom: "2mm" }} />
