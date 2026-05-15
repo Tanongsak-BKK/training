@@ -5,46 +5,58 @@ export default function DailyWorkplaceInfoPage() {
   const pdfRef = useRef();
   const { workplaceData: data, setWorkplaceData: setData } = useGlobalData();
 
-  const exportPDF = () => {
-    const filename = "รายงานการปฏิบัติงานรายวัน.pdf";
+  const exportPDF = async () => {
+  const filename = "รายงานการปฏิบัติงานรายวัน.pdf";
 
-    const runExport = () => {
-      const element = pdfRef.current;
-      const opt = {
-        margin: 0,
-        filename: filename,
-        image: { type: "jpeg", quality: 1 },
-        html2canvas: {
-          scale: 3,
-          useCORS: true,
-          logging: false,
-          letterRendering: true,
-          scrollY: 0,
-          scrollX: 0,
-        },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: 'avoid-all' }
-      };
-      window.html2pdf().set(opt).from(element).save();
-    };
-
-    if (window.html2pdf) {
-      runExport();
-    } else {
-      if (!document.getElementById("font-sarabun")) {
-        const link = document.createElement("link");
-        link.id = "font-sarabun";
-        link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
-        link.rel = "stylesheet";
-        document.head.appendChild(link);
-      }
-
+  // 1. โหลด html2pdf ถ้ายังไม่มี
+  if (!window.html2pdf) {
+    await new Promise((resolve) => {
       const script = document.createElement("script");
       script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-      script.onload = runExport;
+      script.onload = resolve;
       document.head.appendChild(script);
-    }
+    });
+  }
+
+  // 2. โหลด Sarabun font ด้วย FontFace API และรอให้พร้อม
+  const font = new FontFace(
+    "Sarabun",
+    "url(https://fonts.gstatic.com/s/sarabun/v15/DtVmJx26TKEr37c9YK5sulwm6gDXvwE.woff2)"
+  );
+  await font.load();
+  document.fonts.add(font);
+  await document.fonts.ready;
+
+  // 3. Export
+  const element = pdfRef.current;
+  const opt = {
+    margin: 0,
+    filename: filename,
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: {
+      scale: 3,
+      useCORS: true,
+      logging: false,
+      letterRendering: true,
+      scrollY: 0,
+      scrollX: 0,
+      onclone: async (clonedDoc) => {
+        // ใส่ font เข้า cloned document ด้วย
+        const clonedFont = new clonedDoc.defaultView.FontFace(
+          "Sarabun",
+          "url(https://fonts.gstatic.com/s/sarabun/v15/DtVmJx26TKEr37c9YK5sulwm6gDXvwE.woff2)"
+        );
+        await clonedFont.load();
+        clonedDoc.fonts.add(clonedFont);
+        await clonedDoc.fonts.ready;
+      },
+    },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    pagebreak: { mode: "avoid-all" },
   };
+
+  window.html2pdf().set(opt).from(element).save();
+};
 
   const formInput = (label, val, onChange, type = "text") => (
     <div style={{ marginBottom: 8 }}>
