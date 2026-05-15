@@ -109,9 +109,9 @@ export default function DailyReflectionPage() {
       <div style={{ maxWidth: "800px", margin: "0 auto 20px" }}>
         <div style={{ background: "#fff", padding: 16, borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,.15)" }}>
           <h3 style={{ margin: "0 0 12px", fontSize: 15, color: "#5a2d0c" }}>ข้อมูลรายละเอียด</h3>
-          
+
           {formInput("เลขหน้า", data.page, (v) => setData({ ...data, page: v }))}
-          
+
           {formTextarea("รายละเอียดในแผนก/ส่วนงานที่นักศึกษาไปปฏิบัติงาน", data.deptDetails, (v) => setData({ ...data, deptDetails: v }))}
           {formTextarea("งานที่นักศึกษาได้รับมอบหมายให้ทำ", data.assignedTasks, (v) => setData({ ...data, assignedTasks: v }))}
           {formTextarea("ปัญหาและอุปสรรคที่พบระหว่างการปฏิบัติงาน", data.problems, (v) => setData({ ...data, problems: v }))}
@@ -160,9 +160,9 @@ export default function DailyReflectionPage() {
           }}
         >
           {/* PAGE NUMBER top-right */}
-          <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+          {/* <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
             {data.page}
-          </div>
+          </div> */}
 
           {/* TOP BROWN BAR */}
           <div style={{ borderTop: "5px solid #8b4513", marginBottom: "2mm", marginTop: "5mm" }} />
@@ -176,25 +176,25 @@ export default function DailyReflectionPage() {
           <div style={{ borderTop: "2px solid #8b4513", marginBottom: "8mm" }} />
 
           {/* SECTIONS */}
-          <SectionWithLines 
-            title="รายละเอียดในแผนก/ส่วนงานที่นักศึกษาไปปฏิบัติงาน" 
-            content={data.deptDetails} 
+          <SectionWithLines
+            title="รายละเอียดในแผนก/ส่วนงานที่นักศึกษาไปปฏิบัติงาน"
+            content={data.deptDetails}
           />
-          <SectionWithLines 
-            title="งานที่นักศึกษาได้รับมอบหมายให้ทำ" 
-            content={data.assignedTasks} 
+          <SectionWithLines
+            title="งานที่นักศึกษาได้รับมอบหมายให้ทำ"
+            content={data.assignedTasks}
           />
-          <SectionWithLines 
-            title="ปัญหาและอุปสรรคที่พบระหว่างการปฏิบัติงาน" 
-            content={data.problems} 
+          <SectionWithLines
+            title="ปัญหาและอุปสรรคที่พบระหว่างการปฏิบัติงาน"
+            content={data.problems}
           />
-          <SectionWithLines 
-            title="ความคิดเห็นและข้อเสนอแนะ" 
-            content={data.comments} 
+          <SectionWithLines
+            title="ความคิดเห็นและข้อเสนอแนะ"
+            content={data.comments}
           />
-          <SectionWithLines 
-            title="ปัญหาที่สามารถนำมาเป็นหัวข้อโครงงานปริญญานิพนธ์ได้" 
-            content={data.thesisTopics} 
+          <SectionWithLines
+            title="ปัญหาที่สามารถนำมาเป็นหัวข้อโครงงานปริญญานิพนธ์ได้"
+            content={data.thesisTopics}
           />
         </div>
       </div>
@@ -205,7 +205,7 @@ export default function DailyReflectionPage() {
 function SectionWithLines({ title, content }) {
   const LINE_H = "9mm";
   const LINE_COUNT = 4;
-  
+
   return (
     <div style={{ marginBottom: "6mm" }}>
       <div style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "2mm" }}>
@@ -220,12 +220,12 @@ function SectionWithLines({ title, content }) {
         </div>
 
         {/* Text Layer */}
-        <div style={{ 
-          position: "relative", 
-          zIndex: 1, 
-          fontSize: "16px", 
-          lineHeight: LINE_H, 
-          whiteSpace: "pre-wrap", 
+        <div style={{
+          position: "relative",
+          zIndex: 1,
+          fontSize: "16px",
+          lineHeight: LINE_H,
+          whiteSpace: "pre-wrap",
           wordBreak: "break-all",
           overflow: "hidden",
           paddingLeft: "2mm"
