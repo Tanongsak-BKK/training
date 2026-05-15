@@ -165,10 +165,10 @@ export default function DailyReflectionPage() {
           </div>
 
           {/* TOP BROWN BAR */}
-          <div style={{ borderTop: "2px solid #8b4513", marginBottom: "2mm", marginTop: "5mm" }} />
+          <div style={{ marginBottom: "2mm", marginTop: "5mm" }} />
 
           {/* HEADER TEXT */}
-          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" , marginTop:"10mm"}}>
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
