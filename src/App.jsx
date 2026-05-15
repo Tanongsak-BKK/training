@@ -59,7 +59,7 @@ function AppContent() {
       {/* Sidebar */}
       <div style={sidebarStyle}>
         <h2 style={{ margin: '0 0 24px 0', fontSize: '20px', borderBottom: '1px solid #34495e', paddingBottom: '16px' }}>
-          สมุดบันทึกสหกิจศึกษา
+          สมุดบันทึกสหกิจศึกษา by ขี้เกียจเขียน
         </h2>
         <button 
           style={buttonStyle(currentPage === 'cover')} 
