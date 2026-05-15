@@ -4,7 +4,7 @@ export default function DailyReflectionPage() {
   const pdfRef = useRef();
 
   const emptyData = () => ({
-    page: "6",
+    page: "",
     deptDetails: "",
     assignedTasks: "",
     problems: "",
@@ -43,7 +43,7 @@ export default function DailyReflectionPage() {
       if (!document.getElementById("font-sarabun")) {
         const link = document.createElement("link");
         link.id = "font-sarabun";
-        link.href = "https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&display=swap";
+        link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
         link.rel = "stylesheet";
         document.head.appendChild(link);
       }
@@ -156,20 +156,24 @@ export default function DailyReflectionPage() {
             overflow: "hidden",
             textRendering: "geometricPrecision",
             WebkitFontSmoothing: "antialiased",
+            letterSpacing: "normal"
           }}
         >
           {/* PAGE NUMBER top-right */}
-          <div style={{ position: "absolute", top: "7mm", right: "20mm", fontSize: "16px" }}>
+          <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
             {data.page}
           </div>
 
+          {/* TOP BROWN BAR */}
+          <div style={{ borderTop: "5px solid #8b4513", marginBottom: "2mm", marginTop: "5mm" }} />
+
           {/* HEADER TEXT */}
-          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm", marginTop: "10mm" }}>
+          <div style={{ textAlign: "right", fontSize: "14px", marginBottom: "1mm" }}>
             สมุดบันทึกการปฏิบัติงานสหกิจศึกษา วิทยาลัยเทคโนโลยีอุตสาหกรรม
           </div>
 
-          {/* BROWN LINE */}
-          <div style={{ borderTop: "3px solid #8b4513", marginBottom: "8mm" }} />
+          {/* BOTTOM BROWN LINE */}
+          <div style={{ borderTop: "2px solid #8b4513", marginBottom: "8mm" }} />
 
           {/* SECTIONS */}
           <SectionWithLines 
@@ -203,8 +207,8 @@ function SectionWithLines({ title, content }) {
   const LINE_COUNT = 4;
   
   return (
-    <div style={{ marginBottom: "8mm" }}>
-      <div style={{ fontSize: "16px", fontWeight: "bold", fontStyle: "italic", marginBottom: "2mm" }}>
+    <div style={{ marginBottom: "6mm" }}>
+      <div style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "2mm" }}>
         {title}
       </div>
       <div style={{ position: "relative", minHeight: `calc(${LINE_H} * ${LINE_COUNT})` }}>
