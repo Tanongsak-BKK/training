@@ -166,7 +166,6 @@ export default function DailyWorkplaceProcessPage() {
             textRendering: "geometricPrecision",
             WebkitFontSmoothing: "antialiased",
             letterSpacing: "normal",
-            textAlign: "justify",
           }}
         >
           {/* PAGE NUMBER top-right */}
