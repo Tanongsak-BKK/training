@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import logo from "../assets/logo.jpg";
 
 export default function DailyCoverPage() {
   const pdfRef = useRef();
@@ -140,7 +141,10 @@ export default function DailyCoverPage() {
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
+            textRendering: "geometricPrecision",
+            WebkitFontSmoothing: "antialiased",
+            letterSpacing: "normal"
           }}
         >
           {/* TOP BROWN LINE */}
@@ -149,7 +153,7 @@ export default function DailyCoverPage() {
           {/* LOGO */}
           <div style={{ marginBottom: "25mm" }}>
             <img 
-              src="https://upload.wikimedia.org/wikipedia/th/a/a2/KMUTNB_Logo.svg" 
+              src={logo} 
               alt="KMUTNB Logo" 
               style={{ width: "55mm", height: "auto" }}
             />
