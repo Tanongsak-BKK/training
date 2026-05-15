@@ -5,46 +5,59 @@ export default function DailyReflectionPage() {
   const pdfRef = useRef();
   const { reflectionData: data, setReflectionData: setData } = useGlobalData();
 
-  const exportPDF = () => {
-    const filename = "บันทึกรายละเอียดการปฏิบัติงาน.pdf";
-
-    const runExport = () => {
-      const element = pdfRef.current;
-      const opt = {
-        margin: 0,
-        filename: filename,
-        image: { type: "jpeg", quality: 1 },
-        html2canvas: {
-          scale: 3,
-          useCORS: true,
-          logging: false,
-          letterRendering: true,
-          scrollY: 0,
-          scrollX: 0,
-        },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: 'avoid-all' }
-      };
-      window.html2pdf().set(opt).from(element).save();
-    };
-
-    if (window.html2pdf) {
-      runExport();
-    } else {
-      if (!document.getElementById("font-sarabun")) {
-        const link = document.createElement("link");
-        link.id = "font-sarabun";
-        link.href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap";
-        link.rel = "stylesheet";
-        document.head.appendChild(link);
-      }
-
+  const exportPDF = async () => {
+  if (!window.html2canvas) {
+    await new Promise((resolve) => {
       const script = document.createElement("script");
-      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-      script.onload = runExport;
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+      script.onload = resolve;
       document.head.appendChild(script);
-    }
-  };
+    });
+  }
+
+  if (!window.jspdf) {
+    await new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+      script.onload = resolve;
+      document.head.appendChild(script);
+    });
+  }
+
+  const element = pdfRef.current;
+  const { jsPDF } = window.jspdf;
+
+  const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+  const A4_W_MM = 210;
+  const A4_H_MM = 297;
+  const DPI = 96;
+  const MM_TO_PX = DPI / 25.4;
+
+  // pixel ของ A4 ที่ 96dpi
+  const a4PxW = A4_W_MM * MM_TO_PX;
+  const a4PxH = A4_H_MM * MM_TO_PX;
+
+  // scale เพื่อให้ element (210mm) พอดี canvas
+  const elW = element.offsetWidth;
+  const baseScale = a4PxW / elW;
+
+  const canvas = await window.html2canvas(element, {
+    scale: baseScale * 2, // x2 เพื่อความคมชัด
+    useCORS: true,
+    logging: false,
+    scrollY: 0,
+    scrollX: 0,
+    width: elW,
+    height: element.offsetHeight,
+  });
+
+  // canvas จริงที่ได้ต้องพอดีกับ A4 พอดี (เพราะ element คือ 210mm x 296mm)
+  const imgData = canvas.toDataURL("image/png");
+
+  pdf.addImage(imgData, "PNG", 0, 0, A4_W_MM, A4_H_MM);
+  pdf.save("บันทึกรายละเอียดการปฏิบัติงาน.pdf");
+};
 
   const formInput = (label, val, onChange, type = "text") => (
     <div style={{ marginBottom: 8 }}>
