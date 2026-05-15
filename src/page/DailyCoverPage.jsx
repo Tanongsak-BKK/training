@@ -5,10 +5,10 @@ export default function DailyCoverPage() {
   const pdfRef = useRef();
 
   const [data, setData] = useState({
-    company: "บริษัท .................",
-    name: "..........................",
-    studentId: "....................",
-    academicYear: "25.....",
+    company: "",
+    name: "",
+    studentId: "",
+    academicYear: "",
   });
 
   const handleInputChange = (e, field) => {
