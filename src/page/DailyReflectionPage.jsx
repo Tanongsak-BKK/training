@@ -160,9 +160,10 @@ export default function DailyReflectionPage() {
           }}
         >
           {/* PAGE NUMBER top-right */}
-          <div style={{ position: "absolute", top: "7mm", right: "12mm", fontSize: "16px", lineHeight: 1 }}>
+          <div style={{ position: "absolute", top: "7mm", right: "20mm", fontSize: "16px", lineHeight: 1 }}>
             {data.page}
           </div>
+
 
           {/* TOP BROWN BAR */}
           <div style={{ marginBottom: "2mm", marginTop: "5mm" }} />
