@@ -6,6 +6,7 @@ import DailyReflectionPage from './page/DailyReflectionPage'
 import DailyWorkplaceInfoPage from './page/DailyWorkplaceInfoPage'
 import DailyWorkplaceProcessPage from './page/DailyWorkplaceProcessPage'
 import DailyCoverPage from './page/DailyCoverPage'
+import DailyBookDetailsPage from './page/DailyBookDetailsPage'
 
 
 
@@ -89,6 +90,12 @@ function App() {
         >
           หน้าปกรายงาน
         </button>
+        <button 
+          style={buttonStyle(currentPage === 'book_details')} 
+          onClick={() => setCurrentPage('book_details')}
+        >
+          รายละเอียดเล่ม
+        </button>
 
 
       </div>
@@ -101,6 +108,7 @@ function App() {
         {currentPage === 'workplace' && <DailyWorkplaceInfoPage />}
         {currentPage === 'process' && <DailyWorkplaceProcessPage />}
         {currentPage === 'cover' && <DailyCoverPage />}
+        {currentPage === 'book_details' && <DailyBookDetailsPage />}
 
 
       </div>
