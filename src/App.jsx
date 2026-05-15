@@ -5,6 +5,7 @@ import DailyTwoColumnPage from './page/DailyTwoColumnPage'
 import DailyReflectionPage from './page/DailyReflectionPage'
 import DailyWorkplaceInfoPage from './page/DailyWorkplaceInfoPage'
 import DailyWorkplaceProcessPage from './page/DailyWorkplaceProcessPage'
+import DailyCoverPage from './page/DailyCoverPage'
 
 
 
@@ -82,6 +83,12 @@ function App() {
         >
           ผังโครงสร้าง/กระบวนการ
         </button>
+        <button 
+          style={buttonStyle(currentPage === 'cover')} 
+          onClick={() => setCurrentPage('cover')}
+        >
+          หน้าปกรายงาน
+        </button>
 
 
       </div>
@@ -93,6 +100,7 @@ function App() {
         {currentPage === 'reflection' && <DailyReflectionPage />}
         {currentPage === 'workplace' && <DailyWorkplaceInfoPage />}
         {currentPage === 'process' && <DailyWorkplaceProcessPage />}
+        {currentPage === 'cover' && <DailyCoverPage />}
 
 
       </div>
