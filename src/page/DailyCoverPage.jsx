@@ -35,7 +35,13 @@ export default function DailyCoverPage() {
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: 'avoid-all' }
       };
-      window.html2pdf().set(opt).from(element).save();
+      
+      // Wait for fonts to be ready
+      document.fonts.ready.then(() => {
+        setTimeout(() => {
+          window.html2pdf().set(opt).from(element).save();
+        }, 500);
+      });
     };
 
     if (window.html2pdf) {
@@ -148,10 +154,10 @@ export default function DailyCoverPage() {
           }}
         >
           {/* TOP BROWN LINE */}
-          <div style={{ width: "100%", borderTop: "8px solid #8b4513", marginTop: "10mm", marginBottom: "25mm" }} />
+          <div style={{ width: "100%", borderTop: "8px solid #8b4513", marginTop: "5mm", marginBottom: "15mm" }} />
 
           {/* LOGO */}
-          <div style={{ marginBottom: "25mm" }}>
+          <div style={{ marginBottom: "15mm" }}>
             <img 
               src={logo} 
               alt="KMUTNB Logo" 
@@ -160,27 +166,27 @@ export default function DailyCoverPage() {
           </div>
 
           {/* REPORT TITLE */}
-          <div style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "15mm" }}>
+          <div style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "10mm" }}>
             รายงานการปฏิบัติงานรายวัน
           </div>
 
           {/* COMPANY */}
-          <div style={{ width: "100%", fontSize: "20px", marginBottom: "40mm", padding: "0 10mm", wordBreak: "break-word", textAlign: "center", boxSizing: "border-box" }}>
+          <div style={{ width: "100%", fontSize: "20px", marginBottom: "25mm", padding: "0 10mm", wordBreak: "break-word", textAlign: "center", boxSizing: "border-box" }}>
             บริษัท {data.company}
           </div>
 
           {/* BY SECTION */}
-          <div style={{ fontSize: "20px", marginBottom: "15mm" }}>
+          <div style={{ fontSize: "20px", marginBottom: "10mm" }}>
             โดย
           </div>
 
           {/* NAME & ID */}
-          <div style={{ fontSize: "20px", marginBottom: "50mm", textAlign: "center", width: "100%", padding: "0 10mm", wordBreak: "break-word", boxSizing: "border-box" }}>
+          <div style={{ fontSize: "20px", marginBottom: "25mm", textAlign: "center", width: "100%", padding: "0 10mm", wordBreak: "break-word", boxSizing: "border-box" }}>
             {data.name} รหัสนักศึกษา {data.studentId}
           </div>
 
           {/* FOOTER */}
-          <div style={{ marginTop: "auto", textAlign: "center", fontSize: "18px", lineHeight: "1.6" }}>
+          <div style={{ marginTop: "auto", textAlign: "center", fontSize: "18px", lineHeight: "1.6", width: "100%" }}>
             วิทยาลัยเทคโนโลยีอุตสาหกรรม<br />
             มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ<br />
             ปีการศึกษาที่ {data.academicYear}
