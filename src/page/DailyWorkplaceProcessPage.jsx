@@ -5,7 +5,20 @@ export default function DailyWorkplaceProcessPage() {
 
   const [data, setData] = useState({
     page: "5",
+    processImage: null,
+    orgImage: null,
   });
+
+  const handleImageChange = (e, field) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setData(prev => ({ ...prev, [field]: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const exportPDF = () => {
     const filename = "กระบวนการผลิตและผังโครงสร้าง.pdf";
@@ -63,6 +76,46 @@ export default function DailyWorkplaceProcessPage() {
               onChange={(e) => setData({ ...data, page: e.target.value })}
               style={{ border: "1px solid #ccc", borderRadius: 4, padding: "4px 8px", width: "100%", fontSize: 13, boxSizing: "border-box" }}
             />
+          </div>
+
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ fontSize: 13, display: "block", marginBottom: 2, color: "#555" }}>รูปกระบวนการผลิต/การบริการ</label>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, "processImage")}
+                style={{ fontSize: 13, flex: 1 }}
+              />
+              {data.processImage && (
+                <button 
+                  onClick={() => setData({ ...data, processImage: null })}
+                  style={{ padding: "4px 8px", fontSize: 11, background: "#ff4d4f", color: "#fff", border: "none", borderRadius: 4, cursor: "pointer" }}
+                >
+                  ลบรูป
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ fontSize: 13, display: "block", marginBottom: 2, color: "#555" }}>รูปผังโครงสร้างการบริหาร</label>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, "orgImage")}
+                style={{ fontSize: 13, flex: 1 }}
+              />
+              {data.orgImage && (
+                <button 
+                  onClick={() => setData({ ...data, orgImage: null })}
+                  style={{ padding: "4px 8px", fontSize: 11, background: "#ff4d4f", color: "#fff", border: "none", borderRadius: 4, cursor: "pointer" }}
+                >
+                  ลบรูป
+                </button>
+              )}
+            </div>
           </div>
 
           <button
@@ -124,8 +177,12 @@ export default function DailyWorkplaceProcessPage() {
             <div style={{ fontSize: "16px", fontWeight: "bold", fontStyle: "italic", marginBottom: "2mm" }}>
               กระบวนการผลิต/การบริการ โดยสังเขป
             </div>
-            <div style={{ border: "1px solid #000", width: "100%", height: "90mm", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-               {/* Box for image */}
+            <div style={{ border: "1px solid #000", width: "100%", height: "90mm", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+               {data.processImage ? (
+                 <img src={data.processImage} alt="Process" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+               ) : (
+                 <span style={{ color: "#ccc", fontSize: "14px" }}>เลือกรูปภาพกระบวนการผลิต</span>
+               )}
             </div>
             <div style={{ textAlign: "center", fontSize: "14px", marginTop: "2mm" }}>
               รูปกระบวนการผลิต/การบริการ
@@ -137,8 +194,12 @@ export default function DailyWorkplaceProcessPage() {
             <div style={{ fontSize: "16px", fontWeight: "bold", fontStyle: "italic", marginBottom: "2mm" }}>
               ผังโครงสร้างการบริหารของสถานปฏิบัติงาน
             </div>
-            <div style={{ border: "1px solid #000", width: "100%", height: "90mm", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-               {/* Box for image */}
+            <div style={{ border: "1px solid #000", width: "100%", height: "90mm", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+               {data.orgImage ? (
+                 <img src={data.orgImage} alt="Org Chart" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+               ) : (
+                 <span style={{ color: "#ccc", fontSize: "14px" }}>เลือกรูปภาพผังโครงสร้าง</span>
+               )}
             </div>
             <div style={{ textAlign: "center", fontSize: "14px", marginTop: "2mm" }}>
               รูปผังโครงสร้างการบริหาร
