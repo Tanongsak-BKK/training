@@ -165,7 +165,7 @@ export default function DailyCoverPage() {
           </div>
 
           {/* COMPANY */}
-          <div style={{ width: "100%", fontSize: "20px", marginBottom: "40mm", padding: "0 10mm" }}>
+          <div style={{ width: "100%", fontSize: "20px", marginBottom: "40mm", padding: "0 10mm", wordBreak: "break-word", textAlign: "center", boxSizing: "border-box" }}>
             บริษัท {data.company}
           </div>
 
@@ -175,7 +175,7 @@ export default function DailyCoverPage() {
           </div>
 
           {/* NAME & ID */}
-          <div style={{ fontSize: "20px", marginBottom: "50mm", textAlign: "center", width: "100%", padding: "0 10mm" }}>
+          <div style={{ fontSize: "20px", marginBottom: "50mm", textAlign: "center", width: "100%", padding: "0 10mm", wordBreak: "break-word", boxSizing: "border-box" }}>
             {data.name} รหัสนักศึกษา {data.studentId}
           </div>
 
