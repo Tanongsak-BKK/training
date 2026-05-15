@@ -1,18 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useGlobalData } from "../context/GlobalContext";
 
 export default function DailyReflectionPage() {
   const pdfRef = useRef();
-
-  const emptyData = () => ({
-    page: "",
-    deptDetails: "",
-    assignedTasks: "",
-    problems: "",
-    comments: "",
-    thesisTopics: "",
-  });
-
-  const [data, setData] = useState(emptyData());
+  const { reflectionData: data, setReflectionData: setData } = useGlobalData();
 
   const exportPDF = () => {
     const filename = "บันทึกรายละเอียดการปฏิบัติงาน.pdf";

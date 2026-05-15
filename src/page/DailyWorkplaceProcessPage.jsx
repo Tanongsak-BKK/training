@@ -1,13 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useGlobalData } from "../context/GlobalContext";
 
 export default function DailyWorkplaceProcessPage() {
   const pdfRef = useRef();
-
-  const [data, setData] = useState({
-    page: "",
-    processImage: null,
-    orgImage: null,
-  });
+  const { processData: data, setProcessData: setData } = useGlobalData();
 
   const handleImageChange = (e, field) => {
     const file = e.target.files[0];

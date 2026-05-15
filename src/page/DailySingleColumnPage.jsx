@@ -1,20 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useGlobalData } from "../context/GlobalContext";
 
 export default function DailySingleColumnPage() {
   const pdfRef = useRef();
-
-  const emptyData = () => ({
-    date: "",
-    month: "",
-    year: "",
-    startTime: "",
-    endTime: "",
-    page: "",
-    recordNo: "",
-    work: "",
-  });
-
-  const [data, setData] = useState(emptyData());
+  const { singleColumnData: data, setSingleColumnData: setData } = useGlobalData();
 
   const exportPDF = () => {
     const filename = data.recordNo ? `บันทึกประจำวัน_ลำดับที่_${data.recordNo}.pdf` : "บันทึกประจำวัน.pdf";

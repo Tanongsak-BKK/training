@@ -1,15 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import logo from "../assets/logo.jpg";
+import { useGlobalData } from "../context/GlobalContext";
 
 export default function DailyCoverPage() {
   const pdfRef = useRef();
-
-  const [data, setData] = useState({
-    company: "",
-    name: "",
-    studentId: "",
-    academicYear: "",
-  });
+  const { coverData: data, setCoverData: setData } = useGlobalData();
 
   const handleInputChange = (e, field) => {
     setData({ ...data, [field]: e.target.value });

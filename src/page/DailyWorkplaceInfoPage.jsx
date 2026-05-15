@@ -1,17 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useGlobalData } from "../context/GlobalContext";
 
 export default function DailyWorkplaceInfoPage() {
   const pdfRef = useRef();
-
-  const emptyData = () => ({
-    page: "",
-    workplaceName: "",
-    workplaceLocation: "",
-    workplaceHistory: "",
-    assignedTasks: "",
-  });
-
-  const [data, setData] = useState(emptyData());
+  const { workplaceData: data, setWorkplaceData: setData } = useGlobalData();
 
   const exportPDF = () => {
     const filename = "รายงานการปฏิบัติงานรายวัน.pdf";

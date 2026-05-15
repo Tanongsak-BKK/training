@@ -1,21 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useGlobalData } from "../context/GlobalContext";
 
 export default function DailyTwoColumnPage() {
   const pdfRef = useRef();
-
-  const emptyData = () => ({
-    date: "",
-    month: "",
-    year: "",
-    startTime: "",
-    endTime: "",
-    page: "",
-    recordNo: "",
-    work: "",
-  });
-
-  const [leftData, setLeftData] = useState(emptyData());
-  const [rightData, setRightData] = useState(emptyData());
+  const { 
+    twoColumnLeftData: leftData, setTwoColumnLeftData: setLeftData,
+    twoColumnRightData: rightData, setTwoColumnRightData: setRightData
+  } = useGlobalData();
 
   const exportPDF = () => {
     const filename = leftData.recordNo ? `บันทึกประจำวัน_ลำดับที่_${leftData.recordNo}.pdf` : "บันทึกประจำวัน.pdf";
