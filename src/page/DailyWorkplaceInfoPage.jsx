@@ -179,29 +179,36 @@ export default function DailyWorkplaceInfoPage() {
             lineCount={4} 
           />
           
-          <SectionWithLines 
-            label="สถานที่ตั้งสถานประกอบการ/เบอร์ติดต่อ" 
-            content={data.workplaceLocation} 
-            lineCount={3} 
-          />
+          <div style={{ marginTop: "10mm" }}>
+            <SectionWithLines 
+              label="สถานที่ตั้งสถานประกอบการ/เบอร์ติดต่อ" 
+              content={data.workplaceLocation} 
+              lineCount={3} 
+            />
+          </div>
 
-          <SectionWithLines 
-            label="ประวัติความเป็นมาโดยย่อของสถานประกอบการ" 
-            content={data.workplaceHistory} 
-            lineCount={10} 
-          />
+          <div style={{ marginTop: "10mm" }}>
+            <SectionWithLines 
+              label="ประวัติความเป็นมาโดยย่อของสถานประกอบการ" 
+              content={data.workplaceHistory} 
+              lineCount={10} 
+            />
+          </div>
 
-          <SectionWithLines 
-            label="งานที่ได้รับมอบหมาย" 
-            content={data.assignedTasks} 
-            lineCount={5} 
-          />
+          <div style={{ marginTop: "10mm" }}>
+            <SectionWithLines 
+              label="งานที่ได้รับมอบหมาย" 
+              content={data.assignedTasks} 
+              lineCount={5} 
+            />
+          </div>
 
         </div>
       </div>
     </div>
   );
 }
+
 
 function SectionWithLines({ label, content, lineCount }) {
   const LINE_H = "7.0mm";
