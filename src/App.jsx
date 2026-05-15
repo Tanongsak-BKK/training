@@ -3,6 +3,8 @@ import './App.css'
 import DailySingleColumnPage from './page/DailySingleColumnPage'
 import DailyTwoColumnPage from './page/DailyTwoColumnPage'
 import DailyReflectionPage from './page/DailyReflectionPage'
+import DailyWorkplaceInfoPage from './page/DailyWorkplaceInfoPage'
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState('single')
@@ -66,6 +68,13 @@ function App() {
         >
           รายละเอียด/สรุปผล
         </button>
+        <button 
+          style={buttonStyle(currentPage === 'workplace')} 
+          onClick={() => setCurrentPage('workplace')}
+        >
+          รายงานปฏิบัติงานรายวัน
+        </button>
+
       </div>
 
       {/* Main Content */}
@@ -73,6 +82,8 @@ function App() {
         {currentPage === 'single' && <DailySingleColumnPage />}
         {currentPage === 'two' && <DailyTwoColumnPage />}
         {currentPage === 'reflection' && <DailyReflectionPage />}
+        {currentPage === 'workplace' && <DailyWorkplaceInfoPage />}
+
       </div>
     </div>
   )
