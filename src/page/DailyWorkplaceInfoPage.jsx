@@ -188,7 +188,7 @@ export default function DailyWorkplaceInfoPage() {
           <SectionWithLines 
             label="ประวัติความเป็นมาโดยย่อของสถานประกอบการ" 
             content={data.workplaceHistory} 
-            lineCount={18} 
+            lineCount={10} 
           />
 
           <SectionWithLines 
