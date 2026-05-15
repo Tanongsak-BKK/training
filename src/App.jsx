@@ -7,7 +7,6 @@ import DailyWorkplaceInfoPage from './page/DailyWorkplaceInfoPage'
 import DailyWorkplaceProcessPage from './page/DailyWorkplaceProcessPage'
 import DailyCoverPage from './page/DailyCoverPage'
 import DailyBookDetailsPage from './page/DailyBookDetailsPage'
-import FullExportPage from './page/FullExportPage'
 import { GlobalProvider } from './context/GlobalContext'
 
 function App() {
@@ -104,13 +103,6 @@ function AppContent() {
         >
           7. แบบ 1 คอลัมน์
         </button>
-        <button 
-          style={buttonStyle(currentPage === 'full_export')} 
-          onClick={() => setCurrentPage('full_export')}
-          style={{ ...buttonStyle(currentPage === 'full_export'), marginTop: '20px', background: '#8b4513', color: '#fff' }}
-        >
-          8. export ฉบับเต็ม
-        </button>
       </div>
 
       {/* Main Content */}
@@ -122,7 +114,6 @@ function AppContent() {
         {currentPage === 'process' && <DailyWorkplaceProcessPage />}
         {currentPage === 'cover' && <DailyCoverPage />}
         {currentPage === 'book_details' && <DailyBookDetailsPage />}
-        {currentPage === 'full_export' && <FullExportPage />}
 
 
       </div>
