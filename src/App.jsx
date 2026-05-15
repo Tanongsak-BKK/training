@@ -4,6 +4,8 @@ import DailySingleColumnPage from './page/DailySingleColumnPage'
 import DailyTwoColumnPage from './page/DailyTwoColumnPage'
 import DailyReflectionPage from './page/DailyReflectionPage'
 import DailyWorkplaceInfoPage from './page/DailyWorkplaceInfoPage'
+import DailyWorkplaceProcessPage from './page/DailyWorkplaceProcessPage'
+
 
 
 function App() {
@@ -74,6 +76,13 @@ function App() {
         >
           รายงานปฏิบัติงานรายวัน
         </button>
+        <button 
+          style={buttonStyle(currentPage === 'process')} 
+          onClick={() => setCurrentPage('process')}
+        >
+          ผังโครงสร้าง/กระบวนการ
+        </button>
+
 
       </div>
 
@@ -83,6 +92,8 @@ function App() {
         {currentPage === 'two' && <DailyTwoColumnPage />}
         {currentPage === 'reflection' && <DailyReflectionPage />}
         {currentPage === 'workplace' && <DailyWorkplaceInfoPage />}
+        {currentPage === 'process' && <DailyWorkplaceProcessPage />}
+
 
       </div>
     </div>
